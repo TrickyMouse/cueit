@@ -1,0 +1,420 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C6481E7B15BCCD5C00976C25 /* CueSheetSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C6481E7915BCCD5C00976C25 /* CueSheetSettingsViewController.m */; };
+		C6481E7C15BCCD5C00976C25 /* CueSheetSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C6481E7A15BCCD5C00976C25 /* CueSheetSettingsViewController.xib */; };
+		C65B998D15A63B6A0068A447 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C65B998C15A63B6A0068A447 /* UIKit.framework */; };
+		C65B998F15A63B6A0068A447 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C65B998E15A63B6A0068A447 /* Foundation.framework */; };
+		C65B999115A63B6A0068A447 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C65B999015A63B6A0068A447 /* CoreGraphics.framework */; };
+		C65B999715A63B6A0068A447 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C65B999515A63B6A0068A447 /* InfoPlist.strings */; };
+		C65B999915A63B6A0068A447 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C65B999815A63B6A0068A447 /* main.m */; };
+		C65B999D15A63B6A0068A447 /* CueItAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C65B999C15A63B6A0068A447 /* CueItAppDelegate.m */; };
+		C65B99A015A63B6A0068A447 /* CueItMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C65B999F15A63B6A0068A447 /* CueItMasterViewController.m */; };
+		C65B99A315A63B6A0068A447 /* CueItDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C65B99A215A63B6A0068A447 /* CueItDetailViewController.m */; };
+		C65B99A615A63B6A0068A447 /* CueItMasterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C65B99A415A63B6A0068A447 /* CueItMasterViewController.xib */; };
+		C65B99A915A63B6A0068A447 /* CueItDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C65B99A715A63B6A0068A447 /* CueItDetailViewController.xib */; };
+		C65B99B015A63B940068A447 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C65B99AF15A63B940068A447 /* AVFoundation.framework */; };
+		C65B99BD15A64A010068A447 /* PlayItViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C65B99BB15A64A010068A447 /* PlayItViewController.m */; };
+		C65B99BE15A64A010068A447 /* PlayItViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C65B99BC15A64A010068A447 /* PlayItViewController.xib */; };
+		C69AEC1616AF9E8900F9069F /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C69AEC1516AF9E8900F9069F /* Default-568h@2x.png */; };
+		C6FD327B15A8AD5400DAA8CD /* AddSongsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C6FD327915A8AD5400DAA8CD /* AddSongsViewController.m */; };
+		C6FD327C15A8AD5400DAA8CD /* AddSongsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C6FD327A15A8AD5400DAA8CD /* AddSongsViewController.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		C6481E7815BCCD5C00976C25 /* CueSheetSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CueSheetSettingsViewController.h; path = ../CueSheetSettingsViewController.h; sourceTree = "<group>"; };
+		C6481E7915BCCD5C00976C25 /* CueSheetSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CueSheetSettingsViewController.m; path = ../CueSheetSettingsViewController.m; sourceTree = "<group>"; };
+		C6481E7A15BCCD5C00976C25 /* CueSheetSettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CueSheetSettingsViewController.xib; path = ../CueSheetSettingsViewController.xib; sourceTree = "<group>"; };
+		C65B998815A63B6A0068A447 /* CueIt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CueIt.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C65B998C15A63B6A0068A447 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		C65B998E15A63B6A0068A447 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		C65B999015A63B6A0068A447 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		C65B999415A63B6A0068A447 /* CueIt-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CueIt-Info.plist"; sourceTree = "<group>"; };
+		C65B999615A63B6A0068A447 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		C65B999815A63B6A0068A447 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		C65B999A15A63B6A0068A447 /* CueIt-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CueIt-Prefix.pch"; sourceTree = "<group>"; };
+		C65B999B15A63B6A0068A447 /* CueItAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CueItAppDelegate.h; sourceTree = "<group>"; };
+		C65B999C15A63B6A0068A447 /* CueItAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CueItAppDelegate.m; sourceTree = "<group>"; };
+		C65B999E15A63B6A0068A447 /* CueItMasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CueItMasterViewController.h; sourceTree = "<group>"; };
+		C65B999F15A63B6A0068A447 /* CueItMasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CueItMasterViewController.m; sourceTree = "<group>"; };
+		C65B99A115A63B6A0068A447 /* CueItDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CueItDetailViewController.h; sourceTree = "<group>"; };
+		C65B99A215A63B6A0068A447 /* CueItDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CueItDetailViewController.m; sourceTree = "<group>"; };
+		C65B99A515A63B6A0068A447 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/CueItMasterViewController.xib; sourceTree = "<group>"; };
+		C65B99A815A63B6A0068A447 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/CueItDetailViewController.xib; sourceTree = "<group>"; };
+		C65B99AF15A63B940068A447 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		C65B99BA15A64A010068A447 /* PlayItViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayItViewController.h; sourceTree = "<group>"; };
+		C65B99BB15A64A010068A447 /* PlayItViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayItViewController.m; sourceTree = "<group>"; };
+		C65B99BC15A64A010068A447 /* PlayItViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlayItViewController.xib; sourceTree = "<group>"; };
+		C69AEC1516AF9E8900F9069F /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		C6FD327815A8AD5400DAA8CD /* AddSongsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddSongsViewController.h; sourceTree = "<group>"; };
+		C6FD327915A8AD5400DAA8CD /* AddSongsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddSongsViewController.m; sourceTree = "<group>"; };
+		C6FD327A15A8AD5400DAA8CD /* AddSongsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddSongsViewController.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C65B998515A63B6A0068A447 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C65B99B015A63B940068A447 /* AVFoundation.framework in Frameworks */,
+				C65B998D15A63B6A0068A447 /* UIKit.framework in Frameworks */,
+				C65B998F15A63B6A0068A447 /* Foundation.framework in Frameworks */,
+				C65B999115A63B6A0068A447 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C6481E7E15BCCD6500976C25 /* CueItAppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				C65B999B15A63B6A0068A447 /* CueItAppDelegate.h */,
+				C65B999C15A63B6A0068A447 /* CueItAppDelegate.m */,
+			);
+			name = CueItAppDelegate;
+			sourceTree = "<group>";
+		};
+		C6481E7F15BCCD7400976C25 /* CueItMasterViewController */ = {
+			isa = PBXGroup;
+			children = (
+				C65B999E15A63B6A0068A447 /* CueItMasterViewController.h */,
+				C65B999F15A63B6A0068A447 /* CueItMasterViewController.m */,
+				C65B99A415A63B6A0068A447 /* CueItMasterViewController.xib */,
+			);
+			name = CueItMasterViewController;
+			sourceTree = "<group>";
+		};
+		C6481E8015BCCD8300976C25 /* CueItDetailViewController */ = {
+			isa = PBXGroup;
+			children = (
+				C6481E8315BCCDB900976C25 /* CueSheetSettingsViewController */,
+				C6481E8215BCCDA800976C25 /* PlayItViewController */,
+				C6481E8115BCCD9300976C25 /* AddSongsViewController */,
+				C65B99A115A63B6A0068A447 /* CueItDetailViewController.h */,
+				C65B99A215A63B6A0068A447 /* CueItDetailViewController.m */,
+				C65B99A715A63B6A0068A447 /* CueItDetailViewController.xib */,
+			);
+			name = CueItDetailViewController;
+			sourceTree = "<group>";
+		};
+		C6481E8115BCCD9300976C25 /* AddSongsViewController */ = {
+			isa = PBXGroup;
+			children = (
+				C6FD327815A8AD5400DAA8CD /* AddSongsViewController.h */,
+				C6FD327915A8AD5400DAA8CD /* AddSongsViewController.m */,
+				C6FD327A15A8AD5400DAA8CD /* AddSongsViewController.xib */,
+			);
+			name = AddSongsViewController;
+			sourceTree = "<group>";
+		};
+		C6481E8215BCCDA800976C25 /* PlayItViewController */ = {
+			isa = PBXGroup;
+			children = (
+				C65B99BA15A64A010068A447 /* PlayItViewController.h */,
+				C65B99BB15A64A010068A447 /* PlayItViewController.m */,
+				C65B99BC15A64A010068A447 /* PlayItViewController.xib */,
+			);
+			name = PlayItViewController;
+			sourceTree = "<group>";
+		};
+		C6481E8315BCCDB900976C25 /* CueSheetSettingsViewController */ = {
+			isa = PBXGroup;
+			children = (
+				C6481E7815BCCD5C00976C25 /* CueSheetSettingsViewController.h */,
+				C6481E7915BCCD5C00976C25 /* CueSheetSettingsViewController.m */,
+				C6481E7A15BCCD5C00976C25 /* CueSheetSettingsViewController.xib */,
+			);
+			name = CueSheetSettingsViewController;
+			sourceTree = "<group>";
+		};
+		C65B997D15A63B6A0068A447 = {
+			isa = PBXGroup;
+			children = (
+				C69AEC1516AF9E8900F9069F /* Default-568h@2x.png */,
+				C65B999215A63B6A0068A447 /* CueIt */,
+				C65B998B15A63B6A0068A447 /* Frameworks */,
+				C65B998915A63B6A0068A447 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C65B998915A63B6A0068A447 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C65B998815A63B6A0068A447 /* CueIt.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C65B998B15A63B6A0068A447 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C65B99AF15A63B940068A447 /* AVFoundation.framework */,
+				C65B998C15A63B6A0068A447 /* UIKit.framework */,
+				C65B998E15A63B6A0068A447 /* Foundation.framework */,
+				C65B999015A63B6A0068A447 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C65B999215A63B6A0068A447 /* CueIt */ = {
+			isa = PBXGroup;
+			children = (
+				C6481E7E15BCCD6500976C25 /* CueItAppDelegate */,
+				C6481E7F15BCCD7400976C25 /* CueItMasterViewController */,
+				C6481E8015BCCD8300976C25 /* CueItDetailViewController */,
+				C65B999315A63B6A0068A447 /* Supporting Files */,
+			);
+			path = CueIt;
+			sourceTree = "<group>";
+		};
+		C65B999315A63B6A0068A447 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C65B999415A63B6A0068A447 /* CueIt-Info.plist */,
+				C65B999515A63B6A0068A447 /* InfoPlist.strings */,
+				C65B999815A63B6A0068A447 /* main.m */,
+				C65B999A15A63B6A0068A447 /* CueIt-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C65B998715A63B6A0068A447 /* CueIt */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C65B99AC15A63B6A0068A447 /* Build configuration list for PBXNativeTarget "CueIt" */;
+			buildPhases = (
+				C65B998415A63B6A0068A447 /* Sources */,
+				C65B998515A63B6A0068A447 /* Frameworks */,
+				C65B998615A63B6A0068A447 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CueIt;
+			productName = CueIt;
+			productReference = C65B998815A63B6A0068A447 /* CueIt.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C65B997F15A63B6A0068A447 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = CueIt;
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = "Space Dog";
+			};
+			buildConfigurationList = C65B998215A63B6A0068A447 /* Build configuration list for PBXProject "CueIt" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = C65B997D15A63B6A0068A447;
+			productRefGroup = C65B998915A63B6A0068A447 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C65B998715A63B6A0068A447 /* CueIt */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C65B998615A63B6A0068A447 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C65B999715A63B6A0068A447 /* InfoPlist.strings in Resources */,
+				C65B99A615A63B6A0068A447 /* CueItMasterViewController.xib in Resources */,
+				C65B99A915A63B6A0068A447 /* CueItDetailViewController.xib in Resources */,
+				C65B99BE15A64A010068A447 /* PlayItViewController.xib in Resources */,
+				C6FD327C15A8AD5400DAA8CD /* AddSongsViewController.xib in Resources */,
+				C6481E7C15BCCD5C00976C25 /* CueSheetSettingsViewController.xib in Resources */,
+				C69AEC1616AF9E8900F9069F /* Default-568h@2x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C65B998415A63B6A0068A447 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C65B999915A63B6A0068A447 /* main.m in Sources */,
+				C65B999D15A63B6A0068A447 /* CueItAppDelegate.m in Sources */,
+				C65B99A015A63B6A0068A447 /* CueItMasterViewController.m in Sources */,
+				C65B99A315A63B6A0068A447 /* CueItDetailViewController.m in Sources */,
+				C65B99BD15A64A010068A447 /* PlayItViewController.m in Sources */,
+				C6FD327B15A8AD5400DAA8CD /* AddSongsViewController.m in Sources */,
+				C6481E7B15BCCD5C00976C25 /* CueSheetSettingsViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		C65B999515A63B6A0068A447 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C65B999615A63B6A0068A447 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		C65B99A415A63B6A0068A447 /* CueItMasterViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C65B99A515A63B6A0068A447 /* en */,
+			);
+			name = CueItMasterViewController.xib;
+			sourceTree = "<group>";
+		};
+		C65B99A715A63B6A0068A447 /* CueItDetailViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C65B99A815A63B6A0068A447 /* en */,
+			);
+			name = CueItDetailViewController.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C65B99AA15A63B6A0068A447 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Keith Greene (WZZLH62TU2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Keith Greene (WZZLH62TU2)";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "da992279-b599-4732-a258-5b463c5fc35d";
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		C65B99AB15A63B6A0068A447 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Keith Greene (WZZLH62TU2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Keith Greene (WZZLH62TU2)";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PROVISIONING_PROFILE = "da992279-b599-4732-a258-5b463c5fc35d";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "da992279-b599-4732-a258-5b463c5fc35d";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C65B99AD15A63B6A0068A447 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: Keith Greene (6UKJMTVDVE)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Keith Greene (6UKJMTVDVE)";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CueIt/CueIt-Prefix.pch";
+				INFOPLIST_FILE = "CueIt/CueIt-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "da992279-b599-4732-a258-5b463c5fc35d";
+				TARGETED_DEVICE_FAMILY = 1;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		C65B99AE15A63B6A0068A447 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: Keith Greene (6UKJMTVDVE)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Keith Greene (6UKJMTVDVE)";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CueIt/CueIt-Prefix.pch";
+				INFOPLIST_FILE = "CueIt/CueIt-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "da992279-b599-4732-a258-5b463c5fc35d";
+				TARGETED_DEVICE_FAMILY = 1;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C65B998215A63B6A0068A447 /* Build configuration list for PBXProject "CueIt" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C65B99AA15A63B6A0068A447 /* Debug */,
+				C65B99AB15A63B6A0068A447 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C65B99AC15A63B6A0068A447 /* Build configuration list for PBXNativeTarget "CueIt" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C65B99AD15A63B6A0068A447 /* Debug */,
+				C65B99AE15A63B6A0068A447 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C65B997F15A63B6A0068A447 /* Project object */;
+}
