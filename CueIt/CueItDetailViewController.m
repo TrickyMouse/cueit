@@ -81,26 +81,24 @@
 
 - (void) viewWillAppear:(BOOL)animated {
     // Get path to documents directory
-    //NSLog(@"cueSheetName:%@", cueSheetName);
     NSString *plistName = [NSString stringWithFormat:@"%@.plist", cueSheetName];
-    //NSLog(@"plistName:%@ cueSheetName:%@", plistName, cueSheetName);
     NSString *libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     NSString *plistPath = [libraryPath stringByAppendingPathComponent:plistName];   
-    //NSLog(@"viewWillAppear plistPath: %@",plistPath);
+    // negative check for plist at path
     if (![[NSFileManager defaultManager] fileExistsAtPath:plistPath]) {
-        //NSLog(@"file does not exist");
         [self configureView];       
     } else {
-        //NSLog(@"plistExists");
-        _detailItem = [[NSMutableArray alloc] initWithContentsOfFile:plistPath];
-        //NSLog(@"_detailItem:%@", _detailItem);
-
+        NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfFile:plistPath];
+        _detailItem = [NSMutableArray arrayWithObjects:dict, nil];
         plistArray = [NSMutableArray arrayWithArray:_detailItem];
         NSLog(@"viewWillAppear plistArray: %@", plistArray);
-        NSString *firstObject = [NSString stringWithFormat:@"%@", [_detailItem objectAtIndex:0]];
-        if (firstObject.length == 0) {
-            //NSLog(@"object empty");
-            [self configureView];
+        if([plistArray count] > 0) {
+            NSString *firstObject = [NSString stringWithFormat:@"%@", [_detailItem objectAtIndex:0]];
+            if (firstObject.length == 0) {
+                [self configureView];
+            } else {
+                [_documentView reloadData];
+            }
         } else {
             [_documentView reloadData];
         }
@@ -148,11 +146,11 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     NSLog(@"Detail Item: %@", _detailItem);
-    _objects = _detailItem;
+    if ([_detailItem count] != 0)
+        _objects = _detailItem;
+    else
+        _objects = [[NSMutableArray alloc] init];
     return _objects.count;
-//    NSLog(@"plistArray: %@", plistArray);
-//    NSLog(@"%i",plistArray.count);
-//    return plistArray.count;
 }
 
 // Customize the appearance of table view cells.
@@ -262,7 +260,9 @@
     NSMutableArray *diskSongs = [[[NSMutableArray alloc] init] autorelease];
     diskSongs = [[self listFileAtPath:[paths objectAtIndex:0]] retain];
     addSongsViewController.diskSongs = [NSMutableArray arrayWithArray:diskSongs];
-    addSongsViewController.cueSheetSongs = [NSMutableArray arrayWithArray:_objects];
+    NSArray *poop = [NSArray arrayWithObjects:_objects, nil];
+    addSongsViewController.cueSheetSongs = [NSMutableArray arrayWithArray:poop];
+//    addSongsViewController.cueSheetSongs = [NSMutableArray arrayWithArray:_objects];
     addSongsViewController.cueSheetName = cueSheetName;
     [self.navigationController pushViewController:self.addSongsViewController animated:YES];
 }

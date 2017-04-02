@@ -47,16 +47,16 @@
     self.navigationItem.rightBarButtonItem = addButton;
     NSString *rootPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     NSString *plistPath = [rootPath stringByAppendingPathComponent:@"cuesheets.plist"];   
-    //NSLog(@"viewDidLoad plistPath: %@",plistPath);
+
     if (![[NSFileManager defaultManager] fileExistsAtPath:plistPath]) {
-        plistArray = [[NSMutableArray alloc] initWithObjects:nil];        
+        plistArray = [[NSMutableArray alloc] init];
     } else {
         plistArray = [[NSMutableArray alloc] initWithContentsOfFile:plistPath];
-        //_objects = plistArray;
-        //NSLog(@"viewDidLoad:%@", plistArray);
-        //NSLog(@"Writing %@", plistPath);
-
     }
+    // print the home directory for simulator debugging
+    NSString *homeDir = [NSString stringWithFormat:@"%@", NSHomeDirectory()];
+    NSLog(@"HOME DIR:%@", homeDir);
+    
 }
 
 - (void)viewDidUnload
