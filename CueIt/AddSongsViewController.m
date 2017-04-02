@@ -37,6 +37,17 @@
 }
 
 - (void) viewDidAppear:(BOOL)animated {
+    if([diskSongs count] == 0) {
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"NO SONGS IN DOCUMENTS DIRECTORY"
+                                                                       message:@"Please load songs into CueIt through the iTunes Document Directory"
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction * action) {}];
+        
+        [alert addAction:defaultAction];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
     NSLog(@"diskSongs:%@", diskSongs);
     NSLog(@"cueSheetSongs:%@", cueSheetSongs);
     NSLog(@"cueSheetName:%@", cueSheetName);

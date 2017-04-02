@@ -51,10 +51,8 @@
                                                              NSUserDomainMask, YES);
         _detailItem = [[self listFileAtPath:[paths objectAtIndex:0]] retain];
         NSString *plistName = [NSString stringWithFormat:@"%@.plist", cueSheetName];
-        //NSLog(@"plistName:%@", plistName);
         NSArray *libraryDirectory = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
         NSString *plistPath = [[libraryDirectory objectAtIndex:0] stringByAppendingPathComponent:plistName];
-        //NSLog(@"plistPath:%@",plistPath);
         plistArray = [NSMutableArray arrayWithArray:_detailItem];
         //NSLog(@"configure view array: %@", plistArray);
         [plistArray writeToFile:plistPath atomically:YES];
@@ -68,7 +66,8 @@
 	// Do any additional setup after loading the view, typically from a nib.
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
     appDelegate = (CueItAppDelegate *)[[UIApplication sharedApplication] delegate];
-    plistArray = [[[NSMutableArray alloc] initWithObjects:nil] autorelease];
+    plistArray = [[[NSMutableArray alloc] init] autorelease];
+//    plistArray = [[[NSMutableArray alloc] initWithObjects:nil] autorelease];
     //[self configureView];
 }
 
@@ -88,11 +87,13 @@
     if (![[NSFileManager defaultManager] fileExistsAtPath:plistPath]) {
         [self configureView];       
     } else {
-        NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfFile:plistPath];
-        _detailItem = [NSMutableArray arrayWithObjects:dict, nil];
+        _detailItem = [[NSMutableArray alloc] initWithContentsOfFile:plistPath];
+//
+//        NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfFile:plistPath];
+//        _detailItem = [NSMutableArray arrayWithObjects:dict, nil];
         plistArray = [NSMutableArray arrayWithArray:_detailItem];
         NSLog(@"viewWillAppear plistArray: %@", plistArray);
-        if([plistArray count] > 0) {
+        if([_detailItem count] > 0) {
             NSString *firstObject = [NSString stringWithFormat:@"%@", [_detailItem objectAtIndex:0]];
             if (firstObject.length == 0) {
                 [self configureView];
@@ -100,7 +101,7 @@
                 [_documentView reloadData];
             }
         } else {
-            [_documentView reloadData];
+            [self configureView];
         }
     }
 
@@ -145,11 +146,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSLog(@"Detail Item: %@", _detailItem);
-    if ([_detailItem count] != 0)
-        _objects = _detailItem;
-    else
-        _objects = [[NSMutableArray alloc] init];
+    _objects = _detailItem;
     return _objects.count;
 }
 
@@ -260,9 +257,8 @@
     NSMutableArray *diskSongs = [[[NSMutableArray alloc] init] autorelease];
     diskSongs = [[self listFileAtPath:[paths objectAtIndex:0]] retain];
     addSongsViewController.diskSongs = [NSMutableArray arrayWithArray:diskSongs];
-    NSArray *poop = [NSArray arrayWithObjects:_objects, nil];
-    addSongsViewController.cueSheetSongs = [NSMutableArray arrayWithArray:poop];
-//    addSongsViewController.cueSheetSongs = [NSMutableArray arrayWithArray:_objects];
+    addSongsViewController.cueSheetSongs = [NSMutableArray arrayWithArray:_objects];
+
     addSongsViewController.cueSheetName = cueSheetName;
     [self.navigationController pushViewController:self.addSongsViewController animated:YES];
 }
@@ -280,17 +276,16 @@
     NSArray *fileTypes = [NSArray arrayWithObjects:@".mp3", @".aiff", @".wav", @".caf", @".m4a", @".aif", nil];
 
     NSMutableArray *filteredContent = [[NSMutableArray alloc] init];
-
-    for (count = 0; count < (int)[directoryContent count]; count++)
-    {
+    int directoryContentCount = [directoryContent count];
+    for (count = 0; count < directoryContentCount; count++) {
         NSLog(@"File %d: %@", (count + 1), [directoryContent objectAtIndex:count]);
         for (NSString *item in fileTypes) {
             if ([[directoryContent objectAtIndex:count]rangeOfString:item].location != NSNotFound) {
-                NSLog(@"%@", [directoryContent objectAtIndex:count]);
+                NSLog(@"directoryContent object:%@", [directoryContent objectAtIndex:count]);
                 //the second item in the object (1.0) is the volume level
                 //the third item is the preset fade level
                 NSArray *content = [NSArray arrayWithObjects:[directoryContent objectAtIndex:count], @"1.0", @"0.7", nil];
-                //[filteredContent addObject:[directoryContent objectAtIndex:count]];
+                
                 [filteredContent addObject:content];
             }
         }

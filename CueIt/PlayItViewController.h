@@ -26,6 +26,7 @@
 @property (nonatomic, readwrite) int songNumber;
 @property (nonatomic, retain) AVAudioPlayer *audioPlayer;
 @property (nonatomic, readwrite) float fadeAmount;
+@property (nonatomic, retain) NSString *upcomingSong;
 
 - (IBAction) playNextSong:(id)sender;
 -(NSString *)documentsDirectoryPath;
