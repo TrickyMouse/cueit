@@ -110,7 +110,8 @@
     if (!self.playItViewController) {
         self.playItViewController = [[[PlayItViewController alloc] initWithNibName:@"PlayItViewController" bundle:nil] autorelease];
     }
-    playItViewController.songArray = [NSArray arrayWithArray:songListArray];
+    NSArray *songsToPlay = [[DBManager getSharedInstance] findAllSongsByCueSheetNumber:[_detailItem sheetnumber]];
+    playItViewController.songArray = [NSArray arrayWithArray:songsToPlay];
 //    playItViewController.songArray = [NSArray arrayWithArray:_detailItem];
     playItViewController.songNumber = 0;
     if ([appDelegate.audioPlayer isPlaying]) {
@@ -171,7 +172,6 @@
             [self presentViewController:alert animated:YES completion:nil];
         }
         songListArray = [[DBManager getSharedInstance] findAllSongsByCueSheetNumber:[_detailItem sheetnumber]];
-
 
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
@@ -249,6 +249,7 @@
     addSongsViewController.cueSheetSongs = [NSMutableArray arrayWithArray:_objects];
 
     addSongsViewController.cueSheetName = cueSheetName;
+    addSongsViewController.sheetNumber = [NSString stringWithFormat:@"%@", [_detailItem sheetnumber]];
     [self.navigationController pushViewController:self.addSongsViewController animated:YES];
 }
 

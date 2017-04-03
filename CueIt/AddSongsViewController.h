@@ -16,7 +16,9 @@
 @property (nonatomic, retain) NSMutableArray *diskSongs;
 @property (nonatomic, retain) NSMutableArray *cueSheetSongs;
 @property (nonatomic, retain) NSString *cueSheetName;
+@property (nonatomic, retain) NSString *sheetNumber;
 
 @property (nonatomic, retain) CueItDetailViewController *cueItDetailViewController;
+
 
 @end

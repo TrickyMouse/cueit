@@ -19,6 +19,7 @@
 -(BOOL) deleteSheet:(NSString *)sheetNumber;
 -(BOOL) saveSheetData:(NSString *)sheetNumber name:(NSString *)name;
 -(BOOL) saveSongListData:(NSString *)listNumber sheetNumber:(NSString *)cueSheet songName:(NSString *)name volumeLevel:(NSString *)volume fadeTime:(NSString *)fade sortOrder:(NSString *)sortorder;
+-(BOOL) saveNewSongListData:(NSString *)cueSheet songName:(NSString *)name volumeLevel:(NSString *)volume fadeTime:(NSString *)fade sortOrder:(NSString *)sortorder;
 -(BOOL) deleteSong:(NSString *)listNumber;
 -(NSArray *)findCuesheetBySheetNumber:(NSString*)sheetNumber;
 -(NSArray *)getAllCuesheets;

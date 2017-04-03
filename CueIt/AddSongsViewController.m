@@ -8,10 +8,12 @@
 
 #import "AddSongsViewController.h"
 #import "CueItDetailViewController.h"
+#import "SongList.h"
+#import "DBManager.h"
 
 @implementation AddSongsViewController
 
-@synthesize songsTableView, diskSongs, cueItDetailViewController, cueSheetSongs, cueSheetName;
+@synthesize songsTableView, diskSongs, cueItDetailViewController, cueSheetSongs, cueSheetName, sheetNumber;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -37,6 +39,7 @@
 }
 
 - (void) viewDidAppear:(BOOL)animated {
+
     if([diskSongs count] == 0) {
         UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"NO SONGS IN DOCUMENTS DIRECTORY"
                                                                        message:@"Please load songs into CueIt through the iTunes Document Directory"
@@ -51,10 +54,12 @@
     NSLog(@"diskSongs:%@", diskSongs);
     NSLog(@"cueSheetSongs:%@", cueSheetSongs);
     NSLog(@"cueSheetName:%@", cueSheetName);
+
 }
 
+
 - (void) viewWillDisappear:(BOOL)animated {
-    
+
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -111,29 +116,53 @@
     UITableViewCell *thisCell = [tableView cellForRowAtIndexPath:indexPath];
         
     if (thisCell.accessoryType == UITableViewCellAccessoryNone) {
+        // add a new song to the array, but we don't want to save it just yet
         thisCell.accessoryType = UITableViewCellAccessoryCheckmark;
         NSString *song = [NSString stringWithFormat:@"%@",thisCell.textLabel.text];
         NSString *volume = [NSString stringWithFormat:@"1.0"];
-        NSArray *newSong = [NSArray arrayWithObjects:song, volume, nil];
-        int bounds = cueSheetSongs.count - 1;
-        NSLog(@"bounds:%i", bounds);
+        SongList *newSong = [[SongList alloc] init];
+        newSong.name = song;
+        newSong.volume_level = volume;
+        newSong.fade_time = @"0.7";
+        newSong.sheetnumber = self.sheetNumber;
+        int bounds = cueSheetSongs.count;
+        BOOL success = NO;
+        success = [[DBManager getSharedInstance] saveNewSongListData:newSong.sheetnumber songName:newSong.name volumeLevel:newSong.volume_level fadeTime:newSong.fade_time sortOrder:[NSString stringWithFormat:@"%i", indexPath.row]];
+        if(success == NO) {
+            UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"COULD NOT SAVE SONG DATA"
+                                                                           message:@"Something broke.. I'll have to fix it"
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                  handler:^(UIAlertAction * action) {}];
+            
+            [alert addAction:defaultAction];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+
         [cueSheetSongs insertObject:newSong atIndex:bounds];
-        NSLog(@"cueSheetSongs:%@",cueSheetSongs);
-        NSString *plistName = [NSString stringWithFormat:@"%@.plist", cueSheetName];
-        //NSLog(@"plistName:%@ cueSheetName:%@", plistName, cueSheetName);
-        NSString *libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        NSString *plistPath = [libraryPath stringByAppendingPathComponent:plistName];
-        [cueSheetSongs writeToFile:plistPath atomically:YES];
+        [newSong release];
     } else {
         thisCell.accessoryType = UITableViewCellAccessoryNone;
         int bounds = cueSheetSongs.count - 1;
+        SongList *deleteSong = [[SongList alloc] init];
+        deleteSong = [cueSheetSongs objectAtIndex:bounds];
+        BOOL success = NO;
+        success = [[DBManager getSharedInstance] deleteSong:deleteSong.listnumber];
+        if(success == NO) {
+            UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"COULD NOT SAVE SONG DATA"
+                                                                           message:@"Something broke.. I'll have to fix it"
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                  handler:^(UIAlertAction * action) {}];
+            
+            [alert addAction:defaultAction];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+        
         [cueSheetSongs removeObjectAtIndex:bounds];
-        NSLog(@"cueSheetSongs:%@",cueSheetSongs);
-        NSString *plistName = [NSString stringWithFormat:@"%@.plist", cueSheetName];
-        //NSLog(@"plistName:%@ cueSheetName:%@", plistName, cueSheetName);
-        NSString *libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        NSString *plistPath = [libraryPath stringByAppendingPathComponent:plistName];
-        [cueSheetSongs writeToFile:plistPath atomically:YES];
+        NSLog(@"cueSheetSongs:%@",cueSheetSongs);        
     }
 }
 

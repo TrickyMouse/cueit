@@ -192,6 +192,23 @@ static sqlite3_stmt *statement = nil;
     return NO;
 }
 
+-(BOOL) saveNewSongListData:(NSString *)cueSheet songName:(NSString *)name volumeLevel:(NSString *)volume fadeTime:(NSString *)fade sortOrder:(NSString *)sortorder {
+    const char *dbpath = [databasePath UTF8String];
+    if (sqlite3_open(dbpath, &database) == SQLITE_OK) {
+        NSString *insertSQL = [NSString stringWithFormat:@"insert into song_lists (sheetnumber, name, volume_level, fade_time, sortorder) values (\"%d\",\"%@\", \"%@\", \"%@\", \"%@\")", [cueSheet integerValue], name, volume, fade, sortorder];
+        const char *insert_stmt = [insertSQL UTF8String];
+        sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
+        if (sqlite3_step(statement) == SQLITE_DONE) {
+            sqlite3_reset(statement);
+            return YES;
+        } else {
+            sqlite3_reset(statement);
+            return NO;
+        }
+    }
+    return NO;
+}
+
 -(BOOL) deleteSong:(NSString *)listNumber {
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK) {

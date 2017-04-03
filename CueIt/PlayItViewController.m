@@ -8,6 +8,7 @@
 
 #import "PlayItViewController.h"
 #import "CueItAppDelegate.h"
+#import "SongList.h"
 
 @interface PlayItViewController ()
 
@@ -29,9 +30,12 @@
     navBarIsHidden = NO;
     [self.navigationController setNavigationBarHidden:NO];
     appDelegate = (CueItAppDelegate *)[[UIApplication sharedApplication] delegate];
-    NSLog(@"%@", songArray);
-    NSString *currentSong = [[NSString alloc] initWithFormat:@"%@", [[songArray objectAtIndex:songNumber] objectAtIndex:0]];
-    NSString *upcomingSong = [[NSString alloc] initWithFormat:@"%@", [[songArray objectAtIndex:songNumber + 1] objectAtIndex:0]];
+    SongList *song = [[SongList alloc] init];
+    song = [songArray objectAtIndex:songNumber];
+    SongList *next_song = [[SongList alloc] init];
+    next_song = [songArray objectAtIndex:songNumber + 1];
+    NSString *currentSong = [[NSString alloc] initWithFormat:@"%@", [song name]];
+    NSString *upcomingSong = [[NSString alloc] initWithFormat:@"%@", [next_song name]];
     nowPlayingLabel.text = currentSong;
     nextSongLabel.text = upcomingSong;
     songNumber = 0;
@@ -58,10 +62,15 @@
     if(songNumber < [songArray count]) {
 
         playingStateLabel.text = @"Start Playing";
-        NSString *song = [[NSString alloc] initWithFormat:@"%@", [[songArray objectAtIndex:songNumber] objectAtIndex:0]];
+        SongList *filename = [[SongList alloc] init];
+        filename = [songArray objectAtIndex:songNumber];
+//        NSString *song_file = [[NSString alloc] initWithFormat:@"%@", filename];
+        SongList *next_song_file = [[SongList alloc] init];
+        next_song_file = [songArray objectAtIndex:songNumber];
+        NSString *song = [[NSString alloc] initWithFormat:@"%@", [filename name]];
         NSString *nextSong = [[NSString alloc] init];
             if (songNumber != ([songArray count] - 1)) {
-                nextSong = [NSString stringWithFormat:@"%@", [[songArray objectAtIndex:songNumber+1] objectAtIndex:0]];
+                nextSong = [NSString stringWithFormat:@"%@", [next_song_file name]];
             } else {
                 nextSong = @"Restart from beginning";
             }
@@ -70,8 +79,13 @@
         nextSongLabel.text = nextSong;
     } else {
         songNumber = 0;
-        NSString *currentSong = [[NSString alloc] initWithFormat:@"%@", [[songArray objectAtIndex:songNumber] objectAtIndex:0]];
-        NSString *upcomingSong = [[NSString alloc] initWithFormat:@"%@", [[songArray objectAtIndex:songNumber + 1] objectAtIndex:0]];
+        SongList *filename = [[SongList alloc] init];
+        filename = [songArray objectAtIndex:songNumber];
+//        NSString *song_file = [[NSString alloc] initWithFormat:@"%@", [filename name]];
+        SongList *next_song_file = [[SongList alloc] init];
+        next_song_file = [songArray objectAtIndex:songNumber];
+        NSString *currentSong = [[NSString alloc] initWithFormat:@"%@", [filename name]];
+        NSString *upcomingSong = [[NSString alloc] initWithFormat:@"%@", [next_song_file name]];
         nowPlayingLabel.text = currentSong;
         nextSongLabel.text = upcomingSong;
     }
@@ -86,29 +100,38 @@
             [self fadeVolumeDown:audioPlayer];
             //[audioPlayer stop];
             playingStateLabel.text = @"Start Playing";
-            NSString *song = [[NSString alloc] initWithFormat:@"%@", [[songArray objectAtIndex:songNumber] objectAtIndex:0]];
+            SongList *filename = [[SongList alloc] init];
+            filename = [songArray objectAtIndex:songNumber];
+//            NSString *song_file = [[NSString alloc] initWithFormat:@"%@", filename];
+            SongList *next_song_file = [[SongList alloc] init];
+            next_song_file = [songArray objectAtIndex:songNumber];
+            NSString *song = [[NSString alloc] initWithFormat:@"%@", [filename name]];
             NSString *nextSong = [[NSString alloc] init];
             if (songNumber != ([songArray count] - 1)) {
-                nextSong = [NSString stringWithFormat:@"%@", [[songArray objectAtIndex:songNumber+1] objectAtIndex:0]];
+                nextSong = [NSString stringWithFormat:@"%@", [next_song_file name]];
             } else {
                 nextSong = @"Restart from beginning";
             }
             NSLog(@"%@", song);
-            nowPlayingLabel.text = song;
-            nextSongLabel.text = nextSong;
+            nowPlayingLabel.text = [filename name];
+            nextSongLabel.text = [next_song_file name];
         } else {
             NSLog(@"play");
             playingStateLabel.text = @"Stop Playing";
-            NSString *song = [[NSString alloc] initWithFormat:@"%@", [[songArray objectAtIndex:songNumber] objectAtIndex:0]];
+            SongList *filename = [[SongList alloc] init];
+            filename = [songArray objectAtIndex:songNumber];
+            NSString *song = [[NSString alloc] initWithFormat:@"%@", [filename name]];
+            SongList *next_song_file = [[SongList alloc] init];
+            next_song_file = [songArray objectAtIndex:songNumber];
             NSString *nextSong = [[NSString alloc] init];
             if (songNumber != ([songArray count] - 1)) {
-                nextSong = [NSString stringWithFormat:@"%@", [[songArray objectAtIndex:songNumber+1] objectAtIndex:0]];
+                nextSong = [NSString stringWithFormat:@"%@", [next_song_file name]];
             } else {
                 nextSong = @"Restart from beginning";
             }
             NSLog(@"%@", song);
-            nowPlayingLabel.text = song;
-            nextSongLabel.text = nextSong;
+            nowPlayingLabel.text = [filename name];
+            nextSongLabel.text = [next_song_file name];
             NSString *documentsDirectoryPath = [self documentsDirectoryPath];
             NSURL *url = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/%@", documentsDirectoryPath, song]];
             
@@ -117,11 +140,12 @@
             audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
             [audioPlayer setDelegate:self];
             //appDelegate.audioPlayer.numberOfLoops = 0;
-            audioPlayer.numberOfLoops = 0; 
-            NSString *trackVolume = [[NSString alloc] initWithFormat:@"%@", [[songArray objectAtIndex:songNumber] objectAtIndex:1]];
+            audioPlayer.numberOfLoops = 0;
+            
+            NSString *trackVolume = [[NSString alloc] initWithFormat:@"%@", [filename volume_level]];
             float vol = [trackVolume floatValue];
             NSLog(@"trackVolume: %@", trackVolume);
-            NSString *fadeVolume = [[NSString alloc] initWithFormat:@"%@", [[songArray objectAtIndex:songNumber] objectAtIndex:2]];
+            NSString *fadeVolume = [[NSString alloc] initWithFormat:@"%@", [filename fade_time]];
             fadeAmount = [fadeVolume floatValue];
             NSLog(@"fadeAmount: %f", fadeAmount);
             audioPlayer.volume = vol;
@@ -137,14 +161,16 @@
             [song release];
         }
     } else {
-        //do nothing
-       // if ([appDelegate.audioPlayer isPlaying]) {
-       //     [appDelegate.audioPlayer stop];
         if ([audioPlayer isPlaying]) {
             [audioPlayer stop];
             songNumber = 0;
-            NSString *currentSong = [[NSString alloc] initWithFormat:@"%@", [[songArray objectAtIndex:songNumber] objectAtIndex:0]];
-            NSString *upcomingSong = [[NSString alloc] initWithFormat:@"%@", [[songArray objectAtIndex:songNumber + 1] objectAtIndex:0]];
+            SongList *filename = [[SongList alloc] init];
+            filename = [songArray objectAtIndex:songNumber];
+//            NSString *song = [[NSString alloc] initWithFormat:@"%@", [filename name]];
+            SongList *next_song_file = [[SongList alloc] init];
+            next_song_file = [songArray objectAtIndex:songNumber+1];
+            NSString *currentSong = [[NSString alloc] initWithFormat:@"%@", [filename name]];
+            NSString *upcomingSong = [[NSString alloc] initWithFormat:@"%@", [next_song_file name]];
             nowPlayingLabel.text = currentSong;
             nextSongLabel.text = upcomingSong;
         }
@@ -158,8 +184,13 @@
     if (songNumber != 0) {
         songNumber--;
         NSLog(@"%i", songNumber);
-        NSString *currentSong = [[NSString alloc] initWithFormat:@"%@", [[songArray objectAtIndex:songNumber] objectAtIndex:0]];
-        NSString *upcomingSong = [[NSString alloc] initWithFormat:@"%@", [[songArray objectAtIndex:songNumber + 1] objectAtIndex:0]];
+        SongList *filename = [[SongList alloc] init];
+        filename = [songArray objectAtIndex:songNumber];
+//        NSString *song = [[NSString alloc] initWithFormat:@"%@", filename];
+        SongList *next_song_file = [[SongList alloc] init];
+        next_song_file = [songArray objectAtIndex:songNumber+1];
+        NSString *currentSong = [[NSString alloc] initWithFormat:@"%@", [filename name]];
+        NSString *upcomingSong = [[NSString alloc] initWithFormat:@"%@", [next_song_file name]];
         nowPlayingLabel.text = currentSong;
         nextSongLabel.text = upcomingSong;
     }
@@ -193,10 +224,15 @@
     NSLog(@"player stopped");
     if (songNumber < [songArray count]) {
         playingStateLabel.text = @"Start Playing";
-        NSString *currSong = [[NSString alloc] initWithFormat:@"%@", [[songArray objectAtIndex:songNumber] objectAtIndex:0]];
+        SongList *filename = [[SongList alloc] init];
+        filename = [songArray objectAtIndex:songNumber];
+        NSString *song = [[NSString alloc] initWithFormat:@"%@", filename];
+        SongList *next_song_file = [[SongList alloc] init];
+        next_song_file = [songArray objectAtIndex:songNumber+1];
+        NSString *currSong = [[NSString alloc] initWithFormat:@"%@", song];
         NSString *nextSong = [[NSString alloc] init];
         if (songNumber != ([songArray count] - 1)) {
-            nextSong = [NSString stringWithFormat:@"%@", [[songArray objectAtIndex:songNumber+1] objectAtIndex:0]];
+            nextSong = [NSString stringWithFormat:@"%@", next_song_file];
         } else {
             nextSong = @"Restart from beginning";
         }
@@ -207,9 +243,14 @@
         NSLog(@"songnumber equal to songarray");
         songNumber = 0;
         playingStateLabel.text = @"Start Playing";
-        NSString *currSong = [[NSString alloc] initWithFormat:@"%@", [[songArray objectAtIndex:songNumber] objectAtIndex:0]];
+        SongList *filename = [[SongList alloc] init];
+        filename = [songArray objectAtIndex:songNumber];
+        NSString *song = [[NSString alloc] initWithFormat:@"%@", filename];
+        SongList *next_song_file = [[SongList alloc] init];
+        next_song_file = [songArray objectAtIndex:songNumber+1];
+        NSString *currSong = [[NSString alloc] initWithFormat:@"%@", song];
         NSString *nextSong = [[NSString alloc] init];
-        nextSong = [NSString stringWithFormat:@"%@", [[songArray objectAtIndex:songNumber+1] objectAtIndex:0]];
+        nextSong = [NSString stringWithFormat:@"%@", next_song_file];
         nowPlayingLabel.text = currSong;
         nextSongLabel.text = nextSong;
     }
