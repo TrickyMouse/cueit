@@ -46,19 +46,18 @@
     if (self.detailItem) {
         self.detailDescriptionLabel.text = [self.detailItem description];
         // add test data - uncomment to add
-        /*
-        BOOL success = NO;
-        success = [[DBManager getSharedInstance] saveSongListData:@"1" sheetNumber:@"1" songName:@"BabelAmbience.aif" volumeLevel:@"1" fadeTime:@"1" sortOrder:@"1"];
-        if (success == NO) {
-            UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"FAKE DATA WAS NOT SAVED!"
-                                                                           message:@"Something went horribly wrong with the database, so I'll have to fix that or something..."
-                                                                    preferredStyle:UIAlertControllerStyleAlert];
-            
-            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {}];
-            [alert addAction:defaultAction];
-            [self presentViewController:alert animated:YES completion:nil];
-        }
-        */
+//        BOOL success = NO;
+//        success = [[DBManager getSharedInstance] saveSongListData:@"1" sheetNumber:@"1" songName:@"BabelAmbience.aif" volumeLevel:@"1" fadeTime:@"1" sortOrder:@"1"];
+//        if (success == NO) {
+//            UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"FAKE DATA WAS NOT SAVED!"
+//                                                                           message:@"Something went horribly wrong with the database, so I'll have to fix that or something..."
+//                                                                    preferredStyle:UIAlertControllerStyleAlert];
+//            
+//            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {}];
+//            [alert addAction:defaultAction];
+//            [self presentViewController:alert animated:YES completion:nil];
+//        }
+
         NSArray *songlist = [[DBManager getSharedInstance] findAllSongsByCueSheetNumber:[_detailItem sheetnumber]];
         NSLog(@"songlist count:%i", songlist.count);
         songListArray = [NSArray arrayWithArray:songlist];
@@ -69,10 +68,6 @@
         audioFileList = [self listFileAtPath:[paths objectAtIndex:0]];
 //        _detailItem = [[self listFileAtPath:[paths objectAtIndex:0]] retain];
         
-//        NSString *plistName = [NSString stringWithFormat:@"%@.plist", cueSheetName];
-//        NSArray *libraryDirectory = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-//        NSString *plistPath = [[libraryDirectory objectAtIndex:0] stringByAppendingPathComponent:plistName];
-//        [plistArray writeToFile:plistPath atomically:YES];
         [_documentView reloadData];
     }
 }
@@ -83,9 +78,6 @@
 	// Do any additional setup after loading the view, typically from a nib.
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
     appDelegate = (CueItAppDelegate *)[[UIApplication sharedApplication] delegate];
-    songListArray = [[[NSMutableArray alloc] init] autorelease];
-//    plistArray = [[[NSMutableArray alloc] initWithObjects:nil] autorelease];
-    [self configureView];
 }
 
 - (void)viewDidUnload
@@ -97,35 +89,6 @@
 
 - (void) viewWillAppear:(BOOL)animated {
     [self configureView];
-    // Get path to documents directory
-//    NSString *plistName = [NSString stringWithFormat:@"%@.plist", cueSheetName];
-//    NSString *libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-//    NSString *plistPath = [libraryPath stringByAppendingPathComponent:plistName];   
-    // negative check for plist at path
-//    if (![[NSFileManager defaultManager] fileExistsAtPath:plistPath]) {
-//        [self configureView];       
-//    } else {
-//        _detailItem = [[NSMutableArray alloc] initWithContentsOfFile:plistPath];
-//
-//        NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfFile:plistPath];
-//        _detailItem = [NSMutableArray arrayWithObjects:dict, nil];
-//        songListArray = [NSMutableArray arrayWithArray:_detailItem];
-//        NSLog(@"viewWillAppear songListArray: %@", songListArray);
-
-//        if (_detailItem != nil) {
-//            [_documentView reloadData];
-//            NSString *firstObject = [NSString stringWithFormat:@"%@", [_detailItem objectAtIndex:0]];
-//            if (firstObject.length == 0) {
-//                [self configureView];
-//            } else {
-//                [_documentView reloadData];
-//            }
-//        } else {
-//            [self configureView];
-//        }
-//    }
-
-
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -164,11 +127,10 @@
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-//    _objects = [NSMutableArray arrayWithArray:songListArray];
-//    return _objects.count;
-    return [songListArray count];
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+//    return [songListArray count];
+        _objects = [[NSMutableArray arrayWithArray:songListArray] retain];
+        return _objects.count;
 }
 
 // Customize the appearance of table view cells.
@@ -182,7 +144,6 @@
         cell.accessoryType = UITableViewCellAccessoryNone;
     }
     
-//    cell.textLabel.text = [[_objects objectAtIndex:indexPath.row] name];
     cell.textLabel.text = [[songListArray objectAtIndex:indexPath.row] name];
     return cell;
 }
@@ -193,14 +154,13 @@
     return YES;
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        NSMutableArray *objectRemoval = [NSMutableArray arrayWithArray:songListArray];
-        
+        SongList *removeSong = [_objects objectAtIndex:indexPath.row];
         
         BOOL success = NO;
-//        success = [DBManager getSharedInstance] deleteSong:[objectRemoval ]
+        success = [[DBManager getSharedInstance] deleteSong:[NSString stringWithFormat:@"%@", [removeSong listnumber]]];
+        
         if (success == NO) {
             UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"FAKE DATA WAS NOT SAVED!"
                                                                            message:@"Something went horribly wrong with the database, so I'll have to fix that or something..."
@@ -210,18 +170,10 @@
             [alert addAction:defaultAction];
             [self presentViewController:alert animated:YES completion:nil];
         }
-        
-        [objectRemoval removeObjectAtIndex:indexPath.row];
-        songListArray = [NSArray arrayWithArray:objectRemoval];
+        songListArray = [[DBManager getSharedInstance] findAllSongsByCueSheetNumber:[_detailItem sheetnumber]];
+
 
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        //write plist
-//        NSString *plistName = [NSString stringWithFormat:@"%@.plist", cueSheetName];
-        //NSLog(@"plistName:%@ cueSheetName:%@", plistName, cueSheetName);
-//        NSString *libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-//        NSString *plistPath = [libraryPath stringByAppendingPathComponent:plistName];
-//        [songListArray writeToFile:plistPath atomically:YES];
-        
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
     }
@@ -231,6 +183,8 @@
 // Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
+    NSLog(@"TODO: MAKE THIS WORK ");
+    /*
     id object = [[[_objects objectAtIndex:fromIndexPath.row] retain] autorelease];
     [_objects removeObjectAtIndex:fromIndexPath.row];
     [_objects insertObject:object atIndex:toIndexPath.row];
@@ -242,7 +196,7 @@
     NSString *libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     NSString *plistPath = [libraryPath stringByAppendingPathComponent:plistName];
     [songListArray writeToFile:plistPath atomically:YES];
-
+*/
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
