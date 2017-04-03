@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DBManager.h"
+#import "CueSheet.h"
 
 @class CueItDetailViewController;
 
@@ -14,11 +16,8 @@
 
 @property (strong, nonatomic) CueItDetailViewController *detailViewController;
 @property (nonatomic, retain) NSString *cueSheet;
-@property (nonatomic, retain) NSMutableArray *plistArray;
 @property (nonatomic, retain) UIAlertView *alertView;
+@property (nonatomic, retain) NSArray *cueSheetArray;
 
-- (void) insertIntoTableView;
-
-- (void) createMasterPlist;
-- (void) createCueSheetPlist;
+- (void) createCueSheet;
 @end

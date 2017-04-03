@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "PlayItViewController.h"
+#import "DBManager.h"
+#import "SongList.h"
 
 @class CueItAppDelegate, AddSongsViewController, CueSheetSettingsViewController;
 
@@ -26,10 +28,11 @@
 @property (nonatomic, retain) CueSheetSettingsViewController *cueSheetSettingsViewController;
 @property (nonatomic, retain) NSMutableArray *_objects;
 @property (nonatomic, retain) NSMutableArray *selectedObjects;
-@property (nonatomic, retain) NSMutableArray *plistArray;
 
 @property (nonatomic, retain) CueItAppDelegate *appDelegate;
 @property (nonatomic, retain) NSString *cueSheetName;
+@property (nonatomic, retain) NSArray *songListArray;
+@property (nonatomic, retain) NSArray *audioFileList;
 
 - (IBAction)playCueSheet:(id)sender;
 -(NSMutableArray *)listFileAtPath:(NSString *)path;

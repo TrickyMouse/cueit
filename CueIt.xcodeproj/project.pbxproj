@@ -25,6 +25,10 @@
 		C65B99BD15A64A010068A447 /* PlayItViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C65B99BB15A64A010068A447 /* PlayItViewController.m */; };
 		C65B99BE15A64A010068A447 /* PlayItViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C65B99BC15A64A010068A447 /* PlayItViewController.xib */; };
 		C69AEC1616AF9E8900F9069F /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C69AEC1516AF9E8900F9069F /* Default-568h@2x.png */; };
+		C6B88DB01E919872002AF103 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C6B88DAF1E919872002AF103 /* libsqlite3.tbd */; };
+		C6B88DB41E9198EF002AF103 /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C6B88DB31E9198EF002AF103 /* DBManager.m */; };
+		C6B88DBA1E91AE2A002AF103 /* CueSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = C6B88DB91E91AE2A002AF103 /* CueSheet.m */; };
+		C6B88DBD1E91C5AB002AF103 /* SongList.m in Sources */ = {isa = PBXBuildFile; fileRef = C6B88DBC1E91C5AB002AF103 /* SongList.m */; };
 		C6FD327B15A8AD5400DAA8CD /* AddSongsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C6FD327915A8AD5400DAA8CD /* AddSongsViewController.m */; };
 		C6FD327C15A8AD5400DAA8CD /* AddSongsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C6FD327A15A8AD5400DAA8CD /* AddSongsViewController.xib */; };
 /* End PBXBuildFile section */
@@ -56,6 +60,13 @@
 		C65B99BB15A64A010068A447 /* PlayItViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayItViewController.m; sourceTree = "<group>"; };
 		C65B99BC15A64A010068A447 /* PlayItViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlayItViewController.xib; sourceTree = "<group>"; };
 		C69AEC1516AF9E8900F9069F /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		C6B88DAF1E919872002AF103 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		C6B88DB21E9198EF002AF103 /* DBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBManager.h; sourceTree = "<group>"; };
+		C6B88DB31E9198EF002AF103 /* DBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBManager.m; sourceTree = "<group>"; };
+		C6B88DB81E91AE2A002AF103 /* CueSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CueSheet.h; sourceTree = "<group>"; };
+		C6B88DB91E91AE2A002AF103 /* CueSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CueSheet.m; sourceTree = "<group>"; };
+		C6B88DBB1E91C5AB002AF103 /* SongList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SongList.h; sourceTree = "<group>"; };
+		C6B88DBC1E91C5AB002AF103 /* SongList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SongList.m; sourceTree = "<group>"; };
 		C6FD327815A8AD5400DAA8CD /* AddSongsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddSongsViewController.h; sourceTree = "<group>"; };
 		C6FD327915A8AD5400DAA8CD /* AddSongsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddSongsViewController.m; sourceTree = "<group>"; };
 		C6FD327A15A8AD5400DAA8CD /* AddSongsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddSongsViewController.xib; sourceTree = "<group>"; };
@@ -66,6 +77,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C6B88DB01E919872002AF103 /* libsqlite3.tbd in Frameworks */,
 				C65B99B015A63B940068A447 /* AVFoundation.framework in Frameworks */,
 				C65B998D15A63B6A0068A447 /* UIKit.framework in Frameworks */,
 				C65B998F15A63B6A0068A447 /* Foundation.framework in Frameworks */,
@@ -159,6 +171,7 @@
 		C65B998B15A63B6A0068A447 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C6B88DAF1E919872002AF103 /* libsqlite3.tbd */,
 				C65B99AF15A63B940068A447 /* AVFoundation.framework */,
 				C65B998C15A63B6A0068A447 /* UIKit.framework */,
 				C65B998E15A63B6A0068A447 /* Foundation.framework */,
@@ -170,6 +183,7 @@
 		C65B999215A63B6A0068A447 /* CueIt */ = {
 			isa = PBXGroup;
 			children = (
+				C6B88DB11E9198A9002AF103 /* Classes */,
 				C6481E7E15BCCD6500976C25 /* CueItAppDelegate */,
 				C6481E7F15BCCD7400976C25 /* CueItMasterViewController */,
 				C6481E8015BCCD8300976C25 /* CueItDetailViewController */,
@@ -189,6 +203,19 @@
 				C65B999A15A63B6A0068A447 /* CueIt-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C6B88DB11E9198A9002AF103 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				C6B88DB21E9198EF002AF103 /* DBManager.h */,
+				C6B88DB31E9198EF002AF103 /* DBManager.m */,
+				C6B88DB81E91AE2A002AF103 /* CueSheet.h */,
+				C6B88DB91E91AE2A002AF103 /* CueSheet.m */,
+				C6B88DBB1E91C5AB002AF103 /* SongList.h */,
+				C6B88DBC1E91C5AB002AF103 /* SongList.m */,
+			);
+			name = Classes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -271,9 +298,12 @@
 				C65B999D15A63B6A0068A447 /* CueItAppDelegate.m in Sources */,
 				C65B99A015A63B6A0068A447 /* CueItMasterViewController.m in Sources */,
 				C65B99A315A63B6A0068A447 /* CueItDetailViewController.m in Sources */,
+				C6B88DBD1E91C5AB002AF103 /* SongList.m in Sources */,
+				C6B88DBA1E91AE2A002AF103 /* CueSheet.m in Sources */,
 				C65B99BD15A64A010068A447 /* PlayItViewController.m in Sources */,
 				C6FD327B15A8AD5400DAA8CD /* AddSongsViewController.m in Sources */,
 				C6481E7B15BCCD5C00976C25 /* CueSheetSettingsViewController.m in Sources */,
+				C6B88DB41E9198EF002AF103 /* DBManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

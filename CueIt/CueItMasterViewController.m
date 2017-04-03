@@ -11,7 +11,6 @@
 #import "CueItDetailViewController.h"
 
 @interface CueItMasterViewController () {
-    //NSMutableArray *_objects;
     UITextField *cueSheetName;
 }
 @end
@@ -19,7 +18,7 @@
 @implementation CueItMasterViewController
 
 @synthesize detailViewController = _detailViewController; 
-@synthesize cueSheet, plistArray;
+@synthesize cueSheet, cueSheetArray;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -45,14 +44,9 @@
 
     UIBarButtonItem *addButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)] autorelease];
     self.navigationItem.rightBarButtonItem = addButton;
-    NSString *rootPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    NSString *plistPath = [rootPath stringByAppendingPathComponent:@"cuesheets.plist"];   
-
-    if (![[NSFileManager defaultManager] fileExistsAtPath:plistPath]) {
-        plistArray = [[NSMutableArray alloc] init];
-    } else {
-        plistArray = [[NSMutableArray alloc] initWithContentsOfFile:plistPath];
-    }
+    
+    cueSheetArray = [[DBManager getSharedInstance] getAllCuesheets];
+    
     // print the home directory for simulator debugging
     NSString *homeDir = [NSString stringWithFormat:@"%@", NSHomeDirectory()];
     NSLog(@"HOME DIR:%@", homeDir);
@@ -70,65 +64,42 @@
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
 
-- (void)insertNewObject:(id)sender
-{
-   /* if (!_objects) {
-        _objects = [[NSMutableArray alloc] init];
-    }*/
+- (void)insertNewObject:(id)sender {
     _alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"New Cue Sheet", @"new_list_dialog")
                                                           message:@"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
-//    cueSheetName = [[UITextField alloc] initWithFrame:CGRectMake(12.0, 45.0, 260.0, 25.0)];
-//    [cueSheetName setBackgroundColor:[UIColor whiteColor]];
+
     _alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
 
     [_alertView addSubview:cueSheetName];
     [_alertView show];
     [cueSheetName becomeFirstResponder];
-//    [_alertView release];
 
  }
 
 
-- (void) createMasterPlist {
-    //NSLog(@"createMasterPlist plistArray:%@", plistArray);
-   // NSString *error;
-    NSString *rootPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    NSString *plistPath = [rootPath stringByAppendingPathComponent:@"cuesheets.plist"];      
-    NSArray *array = [NSArray arrayWithArray:plistArray];
-    [array writeToFile:plistPath atomically:YES];
-    [self createCueSheetPlist];
-
-}
-
-- (void) createCueSheetPlist {
-    NSString *plistName = [NSString stringWithFormat:@"%@.plist", cueSheet];
-    NSString *rootPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    NSString *plistPath = [rootPath stringByAppendingPathComponent:plistName];
-    NSArray *array = [[NSArray alloc] initWithObjects:@"", nil];
-    [array writeToFile:plistPath atomically:YES];
-
-}
-
-- (void)alertView:(UIAlertView *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == 0) {
-        //NSLog(@"Button 0");
+- (void) createCueSheet {
+    BOOL success = NO;
+    success = [[DBManager getSharedInstance]saveNewSheet:cueSheet];
+    if (success == NO) {
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"CUESHEET WAS NOT SAVED!"
+                                                                       message:@"Something went horribly wrong with the database, so I'll have to fix that or something..."
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {}];
+        [alert addAction:defaultAction];
+        [self presentViewController:alert animated:YES completion:nil];
     } else {
-        cueSheetName = [_alertView textFieldAtIndex:0];
-        cueSheet = cueSheetName.text;
-        //[plistArray addObject:[NSString stringWithFormat:@"%@",cueSheet]];
-        //[plistArray insertObject:[NSString stringWithFormat:@"%@",cueSheet] atIndex:0];
-        //NSLog(@"alertView plistArray:%@", plistArray);
-        [self insertIntoTableView];
+        cueSheetArray = [[DBManager getSharedInstance] getAllCuesheets];
+        [self.tableView reloadData];
     }
 }
 
-- (void) insertIntoTableView {
-    //[_objects insertObject:cueSheet atIndex:0];
-    [plistArray insertObject:cueSheet atIndex:0];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-    [self createMasterPlist];
+- (void)alertView:(UIAlertView *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex != 0) {
+        cueSheetName = [_alertView textFieldAtIndex:0];
+        cueSheet = cueSheetName.text;
+        [self createCueSheet];
+    }
 }
 
 #pragma mark - Table View
@@ -138,17 +109,14 @@
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    //return _objects.count;
-    //NSLog(@"plistArray count:%i",plistArray.count);
-    return plistArray.count;
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return cueSheetArray.count;
 }
 
 // Customize the appearance of table view cells.
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    cueSheet = [plistArray objectAtIndex:indexPath.row];
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    CueSheet *_cueSheet = [[CueSheet alloc] init];
+    _cueSheet = [cueSheetArray objectAtIndex:indexPath.row];
     static NSString *CellIdentifier = @"Cell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -156,8 +124,7 @@
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
-    
-    cell.textLabel.text = cueSheet;
+    cell.textLabel.text = _cueSheet.name;
     return cell;
 }
 
@@ -167,26 +134,24 @@
     return YES;
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        
-        //[_objects removeObjectAtIndex:indexPath.row];
-        [plistArray removeObjectAtIndex:indexPath.row];
-        NSLog(@"plistArray count:%i, plistArray:%@", plistArray.count, plistArray);
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        
-        NSString *plistName = [NSString stringWithFormat:@"%@.plist", cueSheetName.text];
-        NSString *rootPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        NSString *plistPath = [rootPath stringByAppendingPathComponent:plistName];
-        
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        [fileManager removeItemAtPath:plistPath error:NULL];
-        //[plistArray removeObjectAtIndex:indexPath.row];
 
-        NSString *masterPlistPath = [rootPath stringByAppendingPathComponent:@"cuesheets.plist"];      
-        NSArray *array = [NSArray arrayWithArray:plistArray];
-        [array writeToFile:masterPlistPath atomically:YES];
+        CueSheet *removeSheet = [cueSheetArray objectAtIndex:indexPath.row];
+        
+        BOOL success = NO;
+        success = [[DBManager getSharedInstance]deleteSheet:[NSString stringWithFormat:@"%@", [removeSheet sheetnumber]]];
+        if (success == NO) {
+            UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"CUESHEET WAS NOT DELETED!"
+                                                                           message:@"Something went horribly wrong with the database, so I'll have to fix that or something..."
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {}];
+            [alert addAction:defaultAction];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+        cueSheetArray = [[DBManager getSharedInstance] getAllCuesheets];
+        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
@@ -209,16 +174,16 @@
 }
 */
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    NSLog(@"%i", cell.tag);
+
     if (!self.detailViewController) {
         self.detailViewController = [[[CueItDetailViewController alloc] initWithNibName:@"CueItDetailViewController" bundle:nil] autorelease];
     }
-    //NSDate *object = [_objects objectAtIndex:indexPath.row];
-    NSString *object = [plistArray objectAtIndex:indexPath.row];
-    //NSLog(@"object:%@", object);
+    
+    NSString *object = [cueSheetArray objectAtIndex:indexPath.row];
     self.detailViewController.cueSheetName = [[NSString alloc] initWithFormat:@"%@",object];
-    //NSLog(@"self.detailViewController.cueSheetName:%@, cueSheetName.text:%@", self.detailViewController.cueSheetName, cueSheetName.text);
     self.detailViewController.detailItem = object;
     [self.navigationController pushViewController:self.detailViewController animated:YES];
 }
