@@ -7,6 +7,7 @@
 //
 
 #import "CueSheetSettingsViewController.h"
+#import "DBManager.h"
 
 @interface CueSheetSettingsViewController ()
 
@@ -14,7 +15,7 @@
 
 @implementation CueSheetSettingsViewController
 
-@synthesize volumeSetting, volume, volumeSlider, plistIndex, plistName, fade, fadeSetting, fadeSlider;
+@synthesize volumeSetting, volume, volumeSlider, plistIndex, plistName, fade, fadeSetting, fadeSlider, selectedSong;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -43,55 +44,32 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    NSLog(@"plistPath Index:%i", plistIndex);
-    NSLog(@"plistName:%@", plistName);
-    NSString *plist = [NSString stringWithFormat:@"%@.plist", plistName];
-    NSLog(@"plist:%@", plist);
-    NSArray *libraryDirectory = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-    NSString *plistPath = [[libraryDirectory objectAtIndex:0] stringByAppendingPathComponent:plist];
-    if (![[NSFileManager defaultManager] fileExistsAtPath:plistPath]) {
-        volumeSetting = 0;
-        volume.text = volumeSetting;
-        [volumeSlider setValue:[volumeSetting floatValue] animated:NO];
-        fadeSetting = 0;
-        fade.text = fadeSetting;
-        [fadeSlider setValue:[fadeSetting floatValue] animated:NO];
-    } else {
-        NSMutableArray *plistArray = [NSMutableArray arrayWithContentsOfFile:plistPath];
-        volumeSetting = [[plistArray objectAtIndex:plistIndex] objectAtIndex:1];
-        volume.text = volumeSetting;
-        [volumeSlider setValue:[volumeSetting floatValue] animated:NO];
-        fadeSetting = [[plistArray objectAtIndex:plistIndex] objectAtIndex:2];
-        fade.text = fadeSetting;
-        [fadeSlider setValue:[fadeSetting floatValue] animated:NO];
-    }
+    volumeSetting = [selectedSong volume_level];
+    volume.text = volumeSetting;
+    [volumeSlider setValue:[volumeSetting floatValue] animated:NO];
+    fadeSetting = [selectedSong fade_time];
+    fade.text = fadeSetting;
+    [fadeSlider setValue:[fadeSetting floatValue] animated:NO];
 }
 
-- (void) viewDidDisappear:(BOOL)animated {
+- (void) viewWillDisappear:(BOOL)animated {
     float progress = volumeSlider.value;
     volumeSetting = [NSString stringWithFormat:@"%f", progress];
     float fadeProgress = fadeSlider.value;
     fadeSetting = [NSString stringWithFormat:@"%f", fadeProgress];
-    NSString *plist = [NSString stringWithFormat:@"%@.plist", plistName];
-    NSLog(@"plist:%@", plist);
-    NSArray *libraryDirectory = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-    NSString *plistPath = [[libraryDirectory objectAtIndex:0] stringByAppendingPathComponent:plist];
-    if (![[NSFileManager defaultManager] fileExistsAtPath:plistPath]) {
-        NSLog(@"FILE DOES NOT EXIST");
-    } else {
-        NSLog(@"File Exists");
-        NSLog(@"plistIndex:%i", plistIndex);
-        NSMutableArray *plistArray = [NSMutableArray arrayWithContentsOfFile:plistPath];
-        NSString *trackName = [[plistArray objectAtIndex:plistIndex] objectAtIndex:0];
-        NSLog(@"trackName:%@", trackName);
-        NSArray *array = [[[NSArray alloc] initWithObjects:trackName, volumeSetting, fadeSetting, nil] autorelease];
-        //NSArray *array = [NSArray arrayWithObjects:trackName, volumeSetting, nil];
-        NSLog(@"%@", array);
-        [plistArray replaceObjectAtIndex:plistIndex withObject:array];
-        NSLog(@"replaced: %@", plistArray);
-        [plistArray writeToFile:plistPath atomically:YES];
+    selectedSong.volume_level = volumeSetting;
+    selectedSong.fade_time = fadeSetting;
+    BOOL success = NO;
+    success = [[DBManager getSharedInstance] saveSongListData:selectedSong.listnumber sheetNumber:selectedSong.sheetnumber songName:selectedSong.name volumeLevel:selectedSong.volume_level fadeTime:selectedSong.fade_time sortOrder:selectedSong.sortorder];
+    if (success == NO) {
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"SETTING DATA WAS NOT SAVED!"
+                                                                       message:@"Something went horribly wrong with the database, so I'll have to fix that or something..."
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {}];
+        [alert addAction:defaultAction];
+        [self presentViewController:alert animated:YES completion:nil];
     }
-    
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

@@ -178,7 +178,7 @@ static sqlite3_stmt *statement = nil;
 -(BOOL) saveSongListData:(NSString *)listNumber sheetNumber:(NSString *)cueSheet songName:(NSString *)name volumeLevel:(NSString *)volume fadeTime:(NSString *)fade sortOrder:(NSString *)sortorder {
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK) {
-        NSString *insertSQL = [NSString stringWithFormat:@"insert into song_lists (listnumber, sheetnumber, name, volume_level, fade_time, sortorder) values (\"%d\",\"%d\",\"%@\", \"%@\", \"%@\", \"%@\")",[listNumber integerValue], [cueSheet integerValue], name, volume, fade, sortorder];
+        NSString *insertSQL = [NSString stringWithFormat:@"update song_lists set sheetnumber=\"%d\", name=\"%@\", volume_level=\"%@\", fade_time= \"%@\", sortorder= \"%@\" where listnumber=\"%d\"", [cueSheet integerValue], name, volume, fade, sortorder, [listNumber integerValue]];
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
         if (sqlite3_step(statement) == SQLITE_DONE) {

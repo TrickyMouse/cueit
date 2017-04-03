@@ -40,8 +40,7 @@
     }
 }
 
-- (void)configureView
-{
+- (void)configureView {
     // Update the user interface for the detail item.
     if (self.detailItem) {
         self.detailDescriptionLabel.text = [self.detailItem description];
@@ -221,8 +220,13 @@
     }
     
     //self.cueSheetSettingsViewController.volumeSetting = volume;
+    SongList *song = [[SongList alloc] init];
+    song = [_objects objectAtIndex:indexPath.row];
+    self.cueSheetSettingsViewController.selectedSong = song;
+    [song release];
     self.cueSheetSettingsViewController.plistIndex = indexPath.row;
     self.cueSheetSettingsViewController.plistName = cueSheetName;
+    
     [self.navigationController pushViewController:self.cueSheetSettingsViewController animated:YES];
 }
 

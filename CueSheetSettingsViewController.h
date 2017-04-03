@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SongList.h"
 
 @interface CueSheetSettingsViewController : UIViewController {
     IBOutlet UILabel *volume;
@@ -21,6 +22,7 @@
 
 @property (nonatomic, readwrite) int plistIndex;
 @property (nonatomic, retain) NSString *plistName;
+@property (nonatomic, retain) SongList *selectedSong;
 
 - (IBAction)volumeChanged:(id)sender;
 - (IBAction)fadeChanged:(id)sender;
