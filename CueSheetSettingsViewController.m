@@ -15,7 +15,7 @@
 
 @implementation CueSheetSettingsViewController
 
-@synthesize volumeSetting, volume, volumeSlider, plistIndex, plistName, fade, fadeSetting, fadeSlider, selectedSong;
+@synthesize volumeSetting, volume, volumeSlider, fade, fadeSetting, fadeSlider, selectedSong;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

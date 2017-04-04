@@ -106,7 +106,7 @@
     for(CueSheet *sheet in cueSheetArray) {
         // this should only have to happen on new playlist
         if([sheet.location isEqual:@"unsorted"]) {
-            sheet.location = [NSString stringWithFormat:@"%i", index];
+            sheet.location = [NSString stringWithFormat:@"%lu", (unsigned long)index];
             BOOL success = NO;
             success = [[DBManager getSharedInstance] saveSheetData:sheet.sheetnumber name:sheet.name location:sheet.location];
         }
@@ -220,9 +220,6 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    NSLog(@"%i", cell.tag);
-
     if (!self.detailViewController) {
         self.detailViewController = [[[CueItDetailViewController alloc] initWithNibName:@"CueItDetailViewController" bundle:nil] autorelease];
     }

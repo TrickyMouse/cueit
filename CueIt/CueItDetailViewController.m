@@ -216,8 +216,6 @@
     song = [_objects objectAtIndex:indexPath.row];
     self.cueSheetSettingsViewController.selectedSong = song;
     [song release];
-    self.cueSheetSettingsViewController.plistIndex = indexPath.row;
-    self.cueSheetSettingsViewController.plistName = cueSheetName;
     
     [self.navigationController pushViewController:self.cueSheetSettingsViewController animated:YES];
 }
@@ -249,8 +247,7 @@
     NSArray *fileTypes = [NSArray arrayWithObjects:@".mp3", @".aiff", @".wav", @".caf", @".m4a", @".aif", nil];
 
     NSMutableArray *filteredContent = [[NSMutableArray alloc] init];
-    int directoryContentCount = [directoryContent count];
-    for (count = 0; count < directoryContentCount; count++) {
+    for (count = 0; count < [directoryContent count]; count++) {
         NSLog(@"File %d: %@", (count + 1), [directoryContent objectAtIndex:count]);
         for (NSString *item in fileTypes) {
             if ([[directoryContent objectAtIndex:count]rangeOfString:item].location != NSNotFound) {

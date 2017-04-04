@@ -19,9 +19,6 @@
 @property (nonatomic, retain) NSString *fadeSetting;
 @property (nonatomic, retain) IBOutlet UILabel *fade;
 @property (nonatomic, retain) IBOutlet UISlider *fadeSlider;
-
-@property (nonatomic, readwrite) int plistIndex;
-@property (nonatomic, retain) NSString *plistName;
 @property (nonatomic, retain) SongList *selectedSong;
 
 - (IBAction)volumeChanged:(id)sender;
