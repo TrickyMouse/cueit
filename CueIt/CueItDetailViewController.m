@@ -50,7 +50,7 @@
             NSArray *sortedArray = [songListArray sortedArrayUsingDescriptors:sortDescriptors];
             songListArray = [NSMutableArray arrayWithArray:sortedArray];
         }
-        
+        [songListArray retain];
         // this searches the document dirctory for audio files and sets it.
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
         audioFileList = [self listFileAtPath:[paths objectAtIndex:0]];
@@ -96,7 +96,13 @@
     if (!self.playItViewController) {
         self.playItViewController = [[[PlayItViewController alloc] initWithNibName:@"PlayItViewController" bundle:nil] autorelease];
     }
-    NSArray *songsToPlay = [[DBManager getSharedInstance] findAllSongsByCueSheetNumber:[_detailItem sheetnumber]];
+    NSMutableArray *songsToPlay = [NSMutableArray arrayWithArray:[[DBManager getSharedInstance] findAllSongsByCueSheetNumber:[_detailItem sheetnumber]]];
+    // sort the songs to play by database sort order
+    if([songsToPlay count] > 0) {
+        NSArray *sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"sortorder" ascending:YES]];
+        NSArray *sortedArray = [songsToPlay sortedArrayUsingDescriptors:sortDescriptors];
+        songsToPlay = [NSMutableArray arrayWithArray:sortedArray];
+    }
     playItViewController.songArray = [NSArray arrayWithArray:songsToPlay];
     playItViewController.songNumber = 0;
     if ([appDelegate.audioPlayer isPlaying]) {
@@ -156,7 +162,7 @@
         
         
         songListArray = [NSMutableArray arrayWithArray:[[DBManager getSharedInstance] findAllSongsByCueSheetNumber:[_detailItem sheetnumber]]];
-
+        [songListArray retain];
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
