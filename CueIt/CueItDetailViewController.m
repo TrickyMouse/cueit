@@ -44,28 +44,16 @@
     // Update the user interface for the detail item.
     if (self.detailItem) {
         self.detailDescriptionLabel.text = [self.detailItem description];
-        // add test data - uncomment to add
-//        BOOL success = NO;
-//        success = [[DBManager getSharedInstance] saveSongListData:@"1" sheetNumber:@"1" songName:@"BabelAmbience.aif" volumeLevel:@"1" fadeTime:@"1" sortOrder:@"1"];
-//        if (success == NO) {
-//            UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"FAKE DATA WAS NOT SAVED!"
-//                                                                           message:@"Something went horribly wrong with the database, so I'll have to fix that or something..."
-//                                                                    preferredStyle:UIAlertControllerStyleAlert];
-//            
-//            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {}];
-//            [alert addAction:defaultAction];
-//            [self presentViewController:alert animated:YES completion:nil];
-//        }
-
-        NSArray *songlist = [[DBManager getSharedInstance] findAllSongsByCueSheetNumber:[_detailItem sheetnumber]];
-        NSLog(@"songlist count:%i", songlist.count);
-        songListArray = [NSArray arrayWithArray:songlist];
-        NSLog(@"songListArray: %@", songListArray);
+        songListArray = [NSMutableArray arrayWithArray:[[DBManager getSharedInstance] findAllSongsByCueSheetNumber:[_detailItem sheetnumber]]];
+        if([songListArray count] > 0) {
+            NSArray *sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"sortorder" ascending:YES]];
+            NSArray *sortedArray = [songListArray sortedArrayUsingDescriptors:sortDescriptors];
+            songListArray = [NSMutableArray arrayWithArray:sortedArray];
+        }
         
-        // this searches the document dirctory for audio files and sets it to detailItem.
+        // this searches the document dirctory for audio files and sets it.
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
         audioFileList = [self listFileAtPath:[paths objectAtIndex:0]];
-//        _detailItem = [[self listFileAtPath:[paths objectAtIndex:0]] retain];
         
         [_documentView reloadData];
     }
@@ -99,7 +87,6 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        //self.title = NSLocalizedString(@"Cue Sheet", @"Cue Sheet");
         self.title = cueSheetName;
     }
     return self;
@@ -111,12 +98,10 @@
     }
     NSArray *songsToPlay = [[DBManager getSharedInstance] findAllSongsByCueSheetNumber:[_detailItem sheetnumber]];
     playItViewController.songArray = [NSArray arrayWithArray:songsToPlay];
-//    playItViewController.songArray = [NSArray arrayWithArray:_detailItem];
     playItViewController.songNumber = 0;
     if ([appDelegate.audioPlayer isPlaying]) {
         [appDelegate.audioPlayer stop];
     }
-    //self.detailViewController.detailItem = object;
     [self.navigationController pushViewController:self.playItViewController animated:YES];
 }
 
@@ -128,14 +113,12 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//    return [songListArray count];
         _objects = [[NSMutableArray arrayWithArray:songListArray] retain];
         return _objects.count;
 }
 
 // Customize the appearance of table view cells.
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"Cell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -170,7 +153,9 @@
             [alert addAction:defaultAction];
             [self presentViewController:alert animated:YES completion:nil];
         }
-        songListArray = [[DBManager getSharedInstance] findAllSongsByCueSheetNumber:[_detailItem sheetnumber]];
+        
+        
+        songListArray = [NSMutableArray arrayWithArray:[[DBManager getSharedInstance] findAllSongsByCueSheetNumber:[_detailItem sheetnumber]]];
 
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
@@ -178,39 +163,40 @@
     }
 }
 
-
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-    NSLog(@"TODO: MAKE THIS WORK ");
-    /*
-    id object = [[[_objects objectAtIndex:fromIndexPath.row] retain] autorelease];
-    [_objects removeObjectAtIndex:fromIndexPath.row];
-    [_objects insertObject:object atIndex:toIndexPath.row];
-    songListArray = [NSMutableArray arrayWithArray:_objects];
-    //NSLog(@"during editing: %@", plistArray);
-    //write plist
-    NSString *plistName = [NSString stringWithFormat:@"%@.plist", cueSheetName];
-    //NSLog(@"plistName:%@ cueSheetName:%@", plistName, cueSheetName);
-    NSString *libraryPath = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    NSString *plistPath = [libraryPath stringByAppendingPathComponent:plistName];
-    [songListArray writeToFile:plistPath atomically:YES];
-*/
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
+    NSString *stringToMove = [_objects objectAtIndex:sourceIndexPath.row];
+    [_objects removeObjectAtIndex:sourceIndexPath.row];
+    [_objects insertObject:stringToMove atIndex:destinationIndexPath.row];
 }
 
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)setEditing:(BOOL)editing animated:(BOOL)animate {
+    [super setEditing:editing animated:animate];
+    [_documentView setEditing:editing animated:YES];
+    if(!editing) {
+        int index = 0;
+        for(SongList *song in _objects) {
+            BOOL success = NO;
+            success = [[DBManager getSharedInstance] saveSongListData:song.listnumber sheetNumber:song.sheetnumber songName:song.name volumeLevel:song.volume_level fadeTime:song.fade_time sortOrder:[NSString stringWithFormat:@"%i", index]];
+            if (success == NO) {
+                UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"DATA WAS NOT SAVED!" message:@"Something went horribly wrong with the database, so I'll have to fix that or something..." preferredStyle:UIAlertControllerStyleAlert];
     
-    return UITableViewCellEditingStyleDelete;
+                UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {}];
+                [alert addAction:defaultAction];
+                [self presentViewController:alert animated:YES completion:nil];
+            }
+
+            index++;
+        }
+    }
 }
 
-/*
+
  // Override to support conditional rearranging of the table view.
- - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
- {
+ - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
  // Return NO if you do not want the item to be re-orderable.
- return YES;
+     return YES;
  }
- */
+
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -230,16 +216,6 @@
     [self.navigationController pushViewController:self.cueSheetSettingsViewController animated:YES];
 }
 
-- (void)setEditing:(BOOL)editing animated:(BOOL)animated {
-    [super setEditing:editing animated:animated];
-    [_documentView setEditing:editing animated:YES];
-    //NSLog(@"set editing object:%@", _objects);
-    /*if (editing) {
-        addButton.enabled = NO;
-    } else {
-        addButton.enabled = YES;
-    }*/
-}
 
 - (IBAction)insertNewSongs:(id)sender {
     if (!self.addSongsViewController) {
@@ -259,11 +235,8 @@
 
 #pragma mark - document directory methods
 
--(NSMutableArray *)listFileAtPath:(NSString *)path
-{
-    //-----> LIST ALL FILES <-----//
-    //NSLog(@"LISTING ALL FILES FOUND");
-    
+-(NSMutableArray *)listFileAtPath:(NSString *)path {
+    // list all audio files in the documents directory
     int count;
     
     NSArray *directoryContent = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:NULL];

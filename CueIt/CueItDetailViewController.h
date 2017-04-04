@@ -31,7 +31,7 @@
 
 @property (nonatomic, retain) CueItAppDelegate *appDelegate;
 @property (nonatomic, retain) NSString *cueSheetName;
-@property (nonatomic, retain) NSArray *songListArray;
+@property (nonatomic, retain) NSMutableArray *songListArray;
 @property (nonatomic, retain) NSArray *audioFileList;
 
 - (IBAction)playCueSheet:(id)sender;

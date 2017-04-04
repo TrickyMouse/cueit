@@ -168,7 +168,6 @@
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"totes fires");
     if (editingStyle == UITableViewCellEditingStyleDelete) {
 
         CueSheet *removeSheet = [cueSheetArray objectAtIndex:indexPath.row];
