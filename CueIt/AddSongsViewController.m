@@ -57,6 +57,10 @@
 
 }
 
+- (void) viewWillAppear:(BOOL)animated {
+    [songsTableView reloadData];
+}
+
 
 - (void) viewWillDisappear:(BOOL)animated {
 
@@ -87,9 +91,9 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-        cell.accessoryType = UITableViewCellAccessoryNone;
+//        cell.accessoryType = UITableViewCellAccessoryNone;
     }
-    
+    cell.accessoryType = UITableViewCellAccessoryNone;
     cell.textLabel.text = [[diskSongs objectAtIndex:indexPath.row] objectAtIndex:0];
     
     return cell;
