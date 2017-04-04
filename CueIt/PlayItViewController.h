@@ -30,7 +30,8 @@
 
 - (IBAction) playNextSong:(id)sender;
 -(NSString *)documentsDirectoryPath;
-- (void)fadeVolumeDown:(AVAudioPlayer *)aPlayer;
+//- (void)fadeVolumeDown:(AVAudioPlayer *)aPlayer;
+- (void)fadeVolumeDown;
 - (void) restoreVolume:(AVAudioPlayer *)aPlayer;
 - (void) playLastSong:(id)sender;
 - (void) skipNextSong:(id)sender;

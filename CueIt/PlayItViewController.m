@@ -24,7 +24,6 @@
     UIBarButtonItem *rewindButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRewind target:self action:@selector(playLastSong:)] autorelease];
     UIBarButtonItem *forwardButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFastForward target:self action:@selector(skipNextSong:)] autorelease];
     NSArray *array = [NSArray arrayWithObjects:forwardButton, rewindButton, nil];
-    //self.navigationItem.rightBarButtonItem = rewindButton;
     [self.navigationItem setRightBarButtonItems:array];
     [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
     navBarIsHidden = NO;
@@ -58,13 +57,12 @@
 
 - (void) skipNextSong:(id)sender {
         songNumber++;
-//    NSLog(@"songNumber:%i, songArray:%i", songNumber, [songArray count]);
     if(songNumber < [songArray count]) {
 
         playingStateLabel.text = @"Start Playing";
         SongList *filename = [[SongList alloc] init];
         filename = [songArray objectAtIndex:songNumber];
-//        NSString *song_file = [[NSString alloc] initWithFormat:@"%@", filename];
+
         SongList *next_song_file = [[SongList alloc] init];
         next_song_file = [songArray objectAtIndex:songNumber];
         NSString *song = [[NSString alloc] initWithFormat:@"%@", [filename name]];
@@ -81,7 +79,7 @@
         songNumber = 0;
         SongList *filename = [[SongList alloc] init];
         filename = [songArray objectAtIndex:songNumber];
-//        NSString *song_file = [[NSString alloc] initWithFormat:@"%@", [filename name]];
+
         SongList *next_song_file = [[SongList alloc] init];
         next_song_file = [songArray objectAtIndex:songNumber];
         NSString *currentSong = [[NSString alloc] initWithFormat:@"%@", [filename name]];
@@ -93,16 +91,13 @@
 
 - (IBAction)playNextSong:(id)sender {
     if(songNumber < [songArray count]) {
-        //if ([appDelegate.audioPlayer isPlaying]) {
-        //    [appDelegate.audioPlayer stop];
+
         if ([audioPlayer isPlaying]) {
-            
-            [self fadeVolumeDown:audioPlayer];
-            //[audioPlayer stop];
+            [self fadeVolumeDown];
             playingStateLabel.text = @"Start Playing";
             SongList *filename = [[SongList alloc] init];
             filename = [songArray objectAtIndex:songNumber];
-//            NSString *song_file = [[NSString alloc] initWithFormat:@"%@", filename];
+
             SongList *next_song_file = [[SongList alloc] init];
             next_song_file = [songArray objectAtIndex:songNumber];
             NSString *song = [[NSString alloc] initWithFormat:@"%@", [filename name]];
@@ -136,10 +131,9 @@
             NSURL *url = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/%@", documentsDirectoryPath, song]];
             
             NSError *error;
-            //appDelegate.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
+
             audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
             [audioPlayer setDelegate:self];
-            //appDelegate.audioPlayer.numberOfLoops = 0;
             audioPlayer.numberOfLoops = 0;
             
             NSString *trackVolume = [[NSString alloc] initWithFormat:@"%@", [filename volume_level]];
@@ -149,12 +143,11 @@
             fadeAmount = [fadeVolume floatValue];
             NSLog(@"fadeAmount: %f", fadeAmount);
             audioPlayer.volume = vol;
-            //if (appDelegate.audioPlayer == nil) {
+            
             if (audioPlayer == nil) {
                 NSLog(@"%@", [error description]);
                 songNumber++;
-            } else { 
-                //[appDelegate.audioPlayer play];
+            } else {
                 [audioPlayer play];
                 songNumber++;
             }
@@ -162,11 +155,10 @@
         }
     } else {
         if ([audioPlayer isPlaying]) {
-            [audioPlayer stop];
+            [self fadeVolumeDown];
             songNumber = 0;
             SongList *filename = [[SongList alloc] init];
             filename = [songArray objectAtIndex:songNumber];
-//            NSString *song = [[NSString alloc] initWithFormat:@"%@", [filename name]];
             SongList *next_song_file = [[SongList alloc] init];
             next_song_file = [songArray objectAtIndex:songNumber+1];
             NSString *currentSong = [[NSString alloc] initWithFormat:@"%@", [filename name]];
@@ -207,18 +199,6 @@
 - (BOOL)canBecomeFirstResponder {
     return YES;
 }
-/*
-// turn on/off the sourceView UITextView when shaking
-- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
-    if (navBarIsHidden == YES) {
-        [self.navigationController setNavigationBarHidden:NO];
-        navBarIsHidden = NO;
-    } else {
-        [self.navigationController setNavigationBarHidden:YES];
-        navBarIsHidden = YES;
-    }
-}
-*/
 
 -(void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
     NSLog(@"player stopped");
@@ -256,18 +236,16 @@
     }
 }
 
-- (void)fadeVolumeDown:(AVAudioPlayer *)aPlayer
-{
-    aPlayer.volume = aPlayer.volume - fadeAmount;
-    if (aPlayer.volume < 0.01) {
-        [aPlayer stop];         
+- (void)fadeVolumeDown {
+    if (audioPlayer.volume > 0.1) {
+        audioPlayer.volume = audioPlayer.volume - fadeAmount;
+        [self performSelector:@selector(fadeVolumeDown) withObject:nil afterDelay:0.1];
     } else {
-        [self performSelector:@selector(fadeVolumeDown:) withObject:aPlayer afterDelay:0.1];  
+        [audioPlayer stop];
     }
 }
 
-- (void) restoreVolume:(AVAudioPlayer *)aPlayer
-{
+- (void) restoreVolume:(AVAudioPlayer *)aPlayer {
     aPlayer.volume = aPlayer.volume - 1.0;
 }
 
