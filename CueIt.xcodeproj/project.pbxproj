@@ -29,6 +29,8 @@
 		C6B88DB41E9198EF002AF103 /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C6B88DB31E9198EF002AF103 /* DBManager.m */; };
 		C6B88DBA1E91AE2A002AF103 /* CueSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = C6B88DB91E91AE2A002AF103 /* CueSheet.m */; };
 		C6B88DBD1E91C5AB002AF103 /* SongList.m in Sources */ = {isa = PBXBuildFile; fileRef = C6B88DBC1E91C5AB002AF103 /* SongList.m */; };
+		C6D8A2BB1E940CCF0004EA50 /* add_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C6D8A2B91E940CCF0004EA50 /* add_button.png */; };
+		C6D8A2BC1E940CCF0004EA50 /* play_button.png in Resources */ = {isa = PBXBuildFile; fileRef = C6D8A2BA1E940CCF0004EA50 /* play_button.png */; };
 		C6FD327B15A8AD5400DAA8CD /* AddSongsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C6FD327915A8AD5400DAA8CD /* AddSongsViewController.m */; };
 		C6FD327C15A8AD5400DAA8CD /* AddSongsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C6FD327A15A8AD5400DAA8CD /* AddSongsViewController.xib */; };
 /* End PBXBuildFile section */
@@ -67,6 +69,8 @@
 		C6B88DB91E91AE2A002AF103 /* CueSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CueSheet.m; sourceTree = "<group>"; };
 		C6B88DBB1E91C5AB002AF103 /* SongList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SongList.h; sourceTree = "<group>"; };
 		C6B88DBC1E91C5AB002AF103 /* SongList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SongList.m; sourceTree = "<group>"; };
+		C6D8A2B91E940CCF0004EA50 /* add_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_button.png; sourceTree = "<group>"; };
+		C6D8A2BA1E940CCF0004EA50 /* play_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = play_button.png; sourceTree = "<group>"; };
 		C6FD327815A8AD5400DAA8CD /* AddSongsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddSongsViewController.h; sourceTree = "<group>"; };
 		C6FD327915A8AD5400DAA8CD /* AddSongsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddSongsViewController.m; sourceTree = "<group>"; };
 		C6FD327A15A8AD5400DAA8CD /* AddSongsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddSongsViewController.xib; sourceTree = "<group>"; };
@@ -197,6 +201,8 @@
 		C65B999315A63B6A0068A447 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				C6D8A2B91E940CCF0004EA50 /* add_button.png */,
+				C6D8A2BA1E940CCF0004EA50 /* play_button.png */,
 				C65B999415A63B6A0068A447 /* CueIt-Info.plist */,
 				C65B999515A63B6A0068A447 /* InfoPlist.strings */,
 				C65B999815A63B6A0068A447 /* main.m */,
@@ -284,6 +290,8 @@
 				C6FD327C15A8AD5400DAA8CD /* AddSongsViewController.xib in Resources */,
 				C6481E7C15BCCD5C00976C25 /* CueSheetSettingsViewController.xib in Resources */,
 				C69AEC1616AF9E8900F9069F /* Default-568h@2x.png in Resources */,
+				C6D8A2BB1E940CCF0004EA50 /* add_button.png in Resources */,
+				C6D8A2BC1E940CCF0004EA50 /* play_button.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
