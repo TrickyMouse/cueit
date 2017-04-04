@@ -17,7 +17,7 @@
 @property (strong, nonatomic) CueItDetailViewController *detailViewController;
 @property (nonatomic, retain) NSString *cueSheet;
 @property (nonatomic, retain) UIAlertView *alertView;
-@property (nonatomic, retain) NSArray *cueSheetArray;
+@property (nonatomic, retain) NSMutableArray *cueSheetArray;
 
 - (void) createCueSheet;
 @end

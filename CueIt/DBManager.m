@@ -67,7 +67,7 @@ static sqlite3_stmt *statement = nil;
 -(BOOL) saveNewSheet:(NSString *)name {
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK) {
-        NSString *insertSQL = [NSString stringWithFormat:@"insert into cue_sheets (name) values (\"%@\")", name];
+        NSString *insertSQL = [NSString stringWithFormat:@"insert into cue_sheets (name, location) values (\"%@\", \"unsorted\")", name];
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
         if (sqlite3_step(statement) == SQLITE_DONE) {
@@ -99,10 +99,10 @@ static sqlite3_stmt *statement = nil;
 }
 
 
--(BOOL) saveSheetData:(NSString *)sheetNumber name:(NSString *)name {
+-(BOOL) saveSheetData:(NSString *)sheetNumber name:(NSString *)name location:(NSString *)location {
     const char *dbpath = [databasePath UTF8String];
     if (sqlite3_open(dbpath, &database) == SQLITE_OK) {
-        NSString *insertSQL = [NSString stringWithFormat:@"insert into cue_sheets (sheetnumber, name) values (\"%d\",\"%@\")",[sheetNumber integerValue], name];
+        NSString *insertSQL = [NSString stringWithFormat:@"update cue_sheets set name=\"%@\", location=\"%@\" where sheetnumber=\"%d\"", name, location, [sheetNumber integerValue]];
         const char *insert_stmt = [insertSQL UTF8String];
         sqlite3_prepare_v2(database, insert_stmt,-1, &statement, NULL);
             if (sqlite3_step(statement) == SQLITE_DONE) {
@@ -129,9 +129,8 @@ static sqlite3_stmt *statement = nil;
                 cueSheet.sheetnumber = sheetnumber;
                 NSString *name = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 1)];
                 cueSheet.name = name;
-                // Ignoring the location value.. we'll get back to this one..
-//                NSString *location = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 2)];
-//                cueSheet.location;
+                NSString *location = [[NSString alloc] initWithUTF8String:(const char *) sqlite3_column_text(statement, 2)];
+                cueSheet.location = location;
                 [resultArray addObject:cueSheet];
             }
             sqlite3_reset(statement);
