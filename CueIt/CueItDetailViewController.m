@@ -102,13 +102,23 @@
         NSArray *sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"sortorder" ascending:YES]];
         NSArray *sortedArray = [songsToPlay sortedArrayUsingDescriptors:sortDescriptors];
         songsToPlay = [NSMutableArray arrayWithArray:sortedArray];
-    }
-    playItViewController.songArray = [NSArray arrayWithArray:songsToPlay];
-    playItViewController.songNumber = 0;
-    if ([appDelegate.audioPlayer isPlaying]) {
+
+        playItViewController.songArray = [NSArray arrayWithArray:songsToPlay];
+        playItViewController.songNumber = 0;
+        if ([appDelegate.audioPlayer isPlaying]) {
         [appDelegate.audioPlayer stop];
+        }
+        [self.navigationController pushViewController:self.playItViewController animated:YES];
+    } else {
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"No Audio Files to Play!"
+                                                                       message:@"Please add audio files to the playlist by pressing the + button"
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {}];
+        [alert addAction:defaultAction];
+        [self presentViewController:alert animated:YES completion:nil];
+
     }
-    [self.navigationController pushViewController:self.playItViewController animated:YES];
 }
 
 #pragma mark - Table View
