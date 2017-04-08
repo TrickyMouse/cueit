@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 #import "AVFoundation/AVAudioPlayer.h"
+#import "SongList.h"
 
 @class CueItAppDelegate;
 
@@ -27,14 +28,18 @@
 @property (nonatomic, retain) AVAudioPlayer *audioPlayer;
 @property (nonatomic, readwrite) float fadeAmount;
 @property (nonatomic, retain) NSString *upcomingSong;
+@property (nonatomic, retain) SongList *currentSong;
+@property (nonatomic, retain) SongList *nextSong;
+
 
 - (IBAction) playNextSong:(id)sender;
 -(NSString *)documentsDirectoryPath;
 //- (void)fadeVolumeDown:(AVAudioPlayer *)aPlayer;
-- (void)fadeVolumeDown;
+- (BOOL) fadeVolumeDown;
 - (void) restoreVolume:(AVAudioPlayer *)aPlayer;
 - (void) playLastSong:(id)sender;
 - (void) skipNextSong:(id)sender;
+- (void) playNextSongManager:(SongList *)_currentSong;
 
 
 @end
