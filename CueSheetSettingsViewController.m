@@ -32,8 +32,8 @@
     // Do any additional setup after loading the view from its nib.
     volumeSlider.minimumValue = 0.0f;
     volumeSlider.maximumValue = 1.0f;
-    fadeSlider.minimumValue = 0.0f;
-    fadeSlider.maximumValue = 1.0f;
+    fadeSlider.minimumValue = 0.01f;
+    fadeSlider.maximumValue = 0.9f;
 }
 
 - (void)viewDidUnload
