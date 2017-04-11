@@ -45,7 +45,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     volumeSetting = [selectedSong volume_level];
-    volume.text = volumeSetting;
+    volume.text = [NSString stringWithFormat:@"%.f%%", [volumeSetting floatValue] * 100.0];
     [volumeSlider setValue:[volumeSetting floatValue] animated:NO];
     fadeSetting = [selectedSong fade_time];
     fade.text = fadeSetting;
@@ -78,14 +78,12 @@
 }
 
 -(IBAction) volumeChanged:(id)sender {
-    //UISlider *slider = (UISlider *)sender;
     float progress = volumeSlider.value;
     volumeSetting = [NSString stringWithFormat:@"%f", progress];
-    volume.text= volumeSetting;
+    volume.text = [NSString stringWithFormat:@"%.f%%", [volumeSetting floatValue] * 100.0];
 }
 
 -(IBAction) fadeChanged:(id)sender {
-    //UISlider *slider = (UISlider *)sender;
     float fadeProgress = fadeSlider.value;
     fadeSetting = [NSString stringWithFormat:@"%f", fadeProgress];
     fade.text= fadeSetting;
