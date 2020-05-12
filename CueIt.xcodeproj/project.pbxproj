@@ -256,6 +256,7 @@
 				TargetAttributes = {
 					C65B998715A63B6A0068A447 = {
 						DevelopmentTeam = WZZLH62TU2;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -264,6 +265,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = C65B997D15A63B6A0068A447;
@@ -426,16 +428,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Distribution: Keith Greene (WZZLH62TU2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Distribution: Keith Greene (WZZLH62TU2)";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1.0.15;
 				DEVELOPMENT_TEAM = WZZLH62TU2;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CueIt/CueIt-Prefix.pch";
 				INFOPLIST_FILE = "CueIt/CueIt-Info.plist";
+				MARKETING_VERSION = 1.0.15;
 				PRODUCT_BUNDLE_IDENTIFIER = com.spacedog.cueit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "da992279-b599-4732-a258-5b463c5fc35d";
-				PROVISIONING_PROFILE_SPECIFIER = "Space Dog Development";
+				PROVISIONING_PROFILE_SPECIFIER = "Space Dog Store Distribution";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -446,16 +451,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Distribution: Keith Greene (WZZLH62TU2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Distribution: Keith Greene (WZZLH62TU2)";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1.0.15;
 				DEVELOPMENT_TEAM = WZZLH62TU2;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CueIt/CueIt-Prefix.pch";
 				INFOPLIST_FILE = "CueIt/CueIt-Info.plist";
+				MARKETING_VERSION = 1.0.15;
 				PRODUCT_BUNDLE_IDENTIFIER = com.spacedog.cueit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "da992279-b599-4732-a258-5b463c5fc35d";
-				PROVISIONING_PROFILE_SPECIFIER = "Space Dog Development";
+				PROVISIONING_PROFILE_SPECIFIER = "Space Dog Store Distribution";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
